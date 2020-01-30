@@ -10,13 +10,9 @@ namespace ConnectFour2
     {
         static void Main(string[] args)
         {
-            Controller controller = new Controller();
 
-            controller.beforeStart();
-            while (!controller.exitGame)
-            {
-                controller.handleInput();
-            }
+            Hotseat hotseat = new Hotseat();
+            hotseat.runGame();
 
             Console.ReadKey();
 

@@ -9,13 +9,19 @@ namespace ConnectFour2
     class Controller
     {
         private Model model;
+        private AI ai;
+
+        public bool PlayVsAI { get; set; }
+        public Model.COLOR AIColor { get; set; }
+
+        public bool exitGame;
 
         public Controller()
         {
             model = new Model();
+            ai = new AI();
+            AIColor = Model.COLOR.RED;
         }
-
-        public bool exitGame;
 
         bool handleGameOver()
         {
@@ -83,9 +89,34 @@ namespace ConnectFour2
             Console.WriteLine(playerStr + " turn to place a brick.");
         }
 
+        int getPlayerVsAIMove()
+        {
+            if (model.currentPlayer != AIColor)
+                return (Console.ReadKey().KeyChar - '0') - 1;
+            else
+                return ai.getPlayerMove(model, AIColor);
+        }
+
+        int getHotseatMove()
+        {
+            return (Console.ReadKey().KeyChar - '0') - 1;
+        }
+
+        public int getPlayerMove()
+        {
+            if (PlayVsAI)
+            {
+                return getPlayerVsAIMove();
+            }
+            else
+            {
+                return getHotseatMove();
+            }
+        }
+
         public bool tryPlace()
         {
-            int rowNum = (Console.ReadKey().KeyChar - '0') -1;
+            int rowNum = getPlayerMove();
             Console.WriteLine();
             if (rowNum > 6 || rowNum < 0)
                 return false;
@@ -130,7 +161,7 @@ namespace ConnectFour2
         public void beforeStart()
         {
             Console.Write("Starting Connect Four Game...\n\n");
-            controller.printBoard();
+            printBoard();
         }
 
     }

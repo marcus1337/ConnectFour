@@ -13,8 +13,8 @@ namespace ConnectFour2
         int[,] board;
         int[] rowSpotsLeft;
         public COLOR currentPlayer;
-
         public bool havePlaced;
+        Tuple<int, int> lastBrickPos;
 
         public void newGame()
         {
@@ -66,8 +66,6 @@ namespace ConnectFour2
             else if (currentPlayer == COLOR.BLUE)
                 currentPlayer = COLOR.RED;
         }
-
-        Tuple<int, int> lastBrickPos;
         
         bool hasRowWin(COLOR playerColor, int x, int y)
         {
@@ -162,7 +160,6 @@ namespace ConnectFour2
         {
             newGame();
         }
-
 
     }
 }
