@@ -16,8 +16,6 @@ public class AI
 
     public int getPlayerMove(Model model, Model.COLOR aiColor)
     {
-        Thread.Sleep(500);
-
         var possibleMoves = model.rowIndexLocationsAvailable();
         int numberOfChoices = possibleMoves.Count();
         Random r = new Random();
