@@ -24,6 +24,25 @@ public class Model
         board = new int[7, 6];
     }
 
+    List<List<Tuple<int,int>>> getWinBricks()
+    {
+        List<List<Tuple<int, int>>> result = new List<List<Tuple<int, int>>>();
+        int x = lastBrickPos.Item1;
+        int y = lastBrickPos.Item2;
+        List<List<Tuple<int, int>>> allLines = new List<List<Tuple<int, int>>>();
+        allLines.Add(getConnectedBrickPositionsInDirection(currentPlayer, x, y, 1, 0));
+        allLines.Add(getConnectedBrickPositionsInDirection(currentPlayer, x, y, 0, 1));
+        allLines.Add(getConnectedBrickPositionsInDirection(currentPlayer, x, y, 1, 1));
+        allLines.Add(getConnectedBrickPositionsInDirection(currentPlayer, x, y, 1, -1));
+        foreach(var line in allLines)
+        {
+            if (line.Count >= 4)
+                result.Add(line);
+        }
+
+        return result;
+    }
+
     int getFirstFreeColumnIndex(int rowIndex)
     {
         return Math.Abs(rowSpotsLeft[rowIndex] - 6);
@@ -106,6 +125,24 @@ public class Model
     public bool isDraw()
     {
         return !hasCurrentPlayerWon() && !anySpotEmpty();
+    }
+
+    List<Tuple<int, int>> getConnectedBrickPositionsInDirection(COLOR playerColor, int x, int y, int movX, int movY)
+    {
+        return getBrickPositionsInLine(playerColor, x + movX, y + movY, movX, movY).
+            Union(getBrickPositionsInLine(playerColor, x, y, movX * -1, movY * -1)).ToList();
+    }
+
+    List<Tuple<int,int>> getBrickPositionsInLine(COLOR playerColor, int x, int y, int movX, int movY)
+    {
+        List<Tuple<int, int>> result = new List<Tuple<int, int>>();
+        while (isOnBoard(x, y) && board[x, y] == (int)playerColor)
+        {
+            result.Add(new Tuple<int, int>(x, y));
+            y += movY;
+            x += movX;
+        }
+        return result;
     }
 
     int countBricksInLine(COLOR playerColor, int x, int y, int movX, int movY)

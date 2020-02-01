@@ -9,10 +9,10 @@ namespace ConnectFour2
         static void Main(string[] args)
         {
 
-            /* Hotseat hotseat = new Hotseat();
-             hotseat.runGame();*/
+             Hotseat hotseat = new Hotseat();
+             hotseat.runGame();
 
-            Lobby lobby = new Lobby();
+           /* Lobby lobby = new Lobby();
             Console.WriteLine("1: Server");
             Console.WriteLine("2: Client");
             int menuOption = Console.ReadKey().KeyChar - '0';
@@ -26,7 +26,7 @@ namespace ConnectFour2
             {
                 Console.Write("Starting server..............\n\n");
                 lobby.hostLAN();
-            }
+            }*/
 
             Console.ReadKey();
 

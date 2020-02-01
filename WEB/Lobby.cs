@@ -47,6 +47,14 @@ public class Lobby
         Console.WriteLine("END WHILE");
     }
 
+    public async Task<bool> connectToServer(Client client)
+    {
+        waitForIPSearch();
+        if (LANIPs.Count == 0)
+            return false;
+        return await Task.Run(() => client.connectToLANServer(LANIPs));
+    }
+
     public void waitForIPSearch()
     {
         while (searchStatus != SearchStatus.DONE)
@@ -59,19 +67,23 @@ public class Lobby
     {
         Server server = new Server();
         var serverWaitForPlayersTask = fillServerLobby(server);
+
+        while (!serverWaitForPlayersTask.IsCompleted)
+        {
+            Console.WriteLine("waiting...");
+            Thread.Sleep(100);
+        }
     }
 
     public void joinLAN()
     {
-        waitForIPSearch();
         Client client = new Client();
-        if (LANIPs.Count != 0 && client.connectToLANServer(LANIPs))
+        var connectionTask = connectToServer(client);
+
+        while (!connectionTask.IsCompleted)
         {
-            Console.WriteLine("Success");
-        }
-        else
-        {
-            Console.WriteLine("Failure");
+            Console.WriteLine("connecting...");
+            Thread.Sleep(100);
         }
 
     }
