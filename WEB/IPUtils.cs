@@ -20,8 +20,11 @@ public class IPUtils
     private static object lockObj = new object();
     public static readonly int helloClientPort = 5643;
     public static readonly int helloServerPort = 5644;
+    public static readonly int serverSendPort = 5648;
     public static readonly int helloSpamPort = 5533;
     public static readonly string helloClientToServer = "R U SERVER?";
+    public static readonly string helloServerToClient = "Yep - added U if OK?";
+    public static readonly string helloClientToServerVerify = "Okay add me to server!";
 
     public IPUtils()
     {
@@ -44,13 +47,13 @@ public class IPUtils
         LANIPs = new List<string>();
         IPUtils iputils = new IPUtils();
         IPAddress fromIP = IPAddress.Parse("192.168.1.1");
-        IPAddress toIP = IPAddress.Parse("192.168.255.254");
+        IPAddress toIP = IPAddress.Parse("192.168.20.254");
         var ips = iputils.GetIPRange(fromIP, toIP);
         foreach (var ip in ips)
         {
             Ping p = new Ping();
             p.PingCompleted += new PingCompletedEventHandler(p_PingCompleted);
-            p.SendAsync(ip, 200, ip);
+            p.SendAsync(ip, 150, ip);
         }
         return new List<string>(LANIPs); ;
     }

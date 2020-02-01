@@ -12,9 +12,15 @@ public struct Received
     public string Message;
 }
 
-abstract class UdpBase
+public abstract class UdpBase
 {
-    protected UdpClient Client;
+    public UdpClient Client;
+
+    ~UdpBase() 
+    {
+        if (Client != null)
+            Client.Close();
+    }
 
     protected UdpBase()
     {
@@ -32,9 +38,9 @@ abstract class UdpBase
     }
 }
 
-class UdpListener : UdpBase
+public class UdpListener : UdpBase
 {
-    private IPEndPoint _listenOn;
+    public IPEndPoint _listenOn;
 
     public UdpListener(int listenPort) : this(new IPEndPoint(IPAddress.Any, listenPort))
     {
@@ -54,7 +60,7 @@ class UdpListener : UdpBase
 
 }
 
-class UdpUser : UdpBase
+public class UdpUser : UdpBase
 {
     private UdpUser() { }
 

@@ -38,14 +38,13 @@ public class Lobby
 
     }
 
-    public void hostLAN()
+    public async Task fillServerLobby(Server server)
     {
-
-        Server server = new Server();
-        Task.Run(() => {
-            server.waitForPlayersAsync();
-        });
-
+        while (server.awaitNewConnections)
+        {
+            await server.waitForPlayersAsync();
+        }
+        Console.WriteLine("END WHILE");
     }
 
     public void waitForIPSearch()
@@ -56,11 +55,17 @@ public class Lobby
         }
     }
 
+    public void hostLAN()
+    {
+        Server server = new Server();
+        var serverWaitForPlayersTask = fillServerLobby(server);
+    }
+
     public void joinLAN()
     {
         waitForIPSearch();
         Client client = new Client();
-        if (client.connectToLANServer(LANIPs))
+        if (LANIPs.Count != 0 && client.connectToLANServer(LANIPs))
         {
             Console.WriteLine("Success");
         }
