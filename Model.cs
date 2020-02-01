@@ -24,7 +24,7 @@ public class Model
         board = new int[7, 6];
     }
 
-    List<List<Tuple<int,int>>> getWinBricks()
+    public List<List<Tuple<int,int>>> getWinBricks()
     {
         List<List<Tuple<int, int>>> result = new List<List<Tuple<int, int>>>();
         int x = lastBrickPos.Item1;

@@ -23,10 +23,23 @@ namespace ConnectFour2
             AIColor = Model.COLOR.RED;
         }
 
-        bool handleGameOver()
+        void printWinningBricks()
         {
-            printBoard();
-            printStatusText();
+            Console.WriteLine("\n");
+            var winBricks = model.getWinBricks();
+            foreach (var b in winBricks)
+            {
+                foreach (var br in b)
+                {
+                    Console.Write("(" + br.Item1 + "," + br.Item2 + ")");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine("\n");
+        }
+
+        bool wantToPlayAgain()
+        {
             char playAgainOrNot = Console.ReadKey().KeyChar;
             if (playAgainOrNot == 'y' || playAgainOrNot == 'Y')
             {
@@ -39,6 +52,14 @@ namespace ConnectFour2
                 return true;
             }
             return false;
+        }
+
+        bool handleGameOver()
+        {
+            printBoard();
+            printStatusText();
+            printWinningBricks();
+            return wantToPlayAgain();
         }
 
         void handleGameOverAndAskRematch()
