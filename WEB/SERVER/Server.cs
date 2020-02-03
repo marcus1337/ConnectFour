@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -12,71 +13,87 @@ public class Server
 
     public bool awaitNewConnections;
     public HashSet<string> clientIPs;
+    List<string> clientAdresses;
+    public UdpListener listener;
+    public ServerConnect serverConnect;
+    public WebGame webGame;
 
-    UdpListener listener;
-    public async Task waitForPlayersAsync()
-    {
-        var receiveTask = await listener.ReceiveBytes();
-        
-        if (receiveTask.pktType == PktType.STRMSG && receiveTask.strMsg == IPUtils.helloClientToServer)
-        {
-            IPUtils.SendUdpOfType(PktType.STRMSG, IPUtils.serverSendPort, receiveTask.Sender.Address.ToString(), IPUtils.clientPort, Encoding.ASCII.GetBytes(IPUtils.helloServerToClient));
-        }
-        if (receiveTask.pktType == PktType.STRMSG && receiveTask.strMsg == IPUtils.helloClientToServerVerify)
-        {
-            clientIPs.Add(receiveTask.senderAdress);
-            if (clientIPs.Count == 1)
-                awaitNewConnections = false;
-            Console.WriteLine("SERVER IS READY");
-        }
-    }
-
+    private Stopwatch timer;
 
     public Server()
     {
+        timer = new Stopwatch();
+        webGame = new WebGame();
+        serverConnect = new ServerConnect(this);
         awaitNewConnections = true;
         clientIPs = new HashSet<string>();
         listener = new UdpListener(IPUtils.serverPort);
     }
 
+    public void handleGamePacket(ReceivedBytes received)
+    {
+        if (received.pktType == PktType.PLAYERACTION)
+        {
+            PlayerAction playerAction = (PlayerAction)IOStuff.Deserialize(received.message);
+            webGame.tryPlace(playerAction.player, playerAction.rowNumber);
+        }
+        if(received.pktType == PktType.REQUESTGAMEDATA)
+        {
+            sendGameInfo();
+        }
+    }
+
     public async Task listenForGameMessagesAsync()
     {
-        while (true)
+        while (IPUtils.webLoopFlag)
         {
-            Console.WriteLine("BEFORE RECEIVE");
             var receiveTask = await listener.ReceiveBytes();
-            Console.WriteLine("AFTER RECEIVE");
-          /*  object obj = IOStuff.Deserialize(receiveTask.message.ToArray());
-            if (obj is AlivePacket)
-            {
-                var content = obj as AlivePacket;
-                Console.WriteLine("Time: " + content.milliseconds);
-            }
-            else
-            {
-                var content = Encoding.ASCII.GetString(receiveTask.message, 0, receiveTask.message.Length);
-                Console.WriteLine("MSG: " + content);
-            }*/
-
+            serverConnect.handleAlivePacket(receiveTask);
+            handleGamePacket(receiveTask);
         }
+    }
+
+    public void sendGameMessages()
+    {
+        if (webGame.wasUpdated || timer.ElapsedMilliseconds > 600)
+        {
+            IPUtils.SendUdpOfType(PktType.MODEL, IPUtils.serverSendPort, clientAdresses[0], IPUtils.clientPort, IOStuff.Serialize(webGame.controller.getModel()));
+            webGame.wasUpdated = false;
+            timer.Restart();
+        }
+        
+    }
+
+    public async Task handleHumanInputs()
+    {
+        await Task.Run(() =>
+        {
+            while (IPUtils.webLoopFlag)
+            {
+                int keyPress = Console.ReadKey().KeyChar - '0';
+                webGame.tryPlace(webGame.player1, keyPress);
+                Console.WriteLine("PRESS: " + keyPress);
+            }
+        });
+    }
+
+    void sendGameInfo()
+    {
+        IPUtils.SendUdpOfType(PktType.MODEL, IPUtils.serverSendPort, clientAdresses[0], IPUtils.clientPort, IOStuff.Serialize(webGame.controller.getModel()));
+        IPUtils.SpamSendUdpOfType(PktType.PLAYER, IPUtils.serverSendPort, clientAdresses[0], IPUtils.clientPort, IOStuff.Serialize(webGame.player2));
     }
 
     public void startGame()
     {
         var listenerTask = listenForGameMessagesAsync();
-        List<string> cIPs = clientIPs.ToList();
+        clientAdresses = clientIPs.ToList();
+        var humanInputsTask = handleHumanInputs();
+        timer.Start();
 
-        while (true)
+        while (IPUtils.webLoopFlag)
         {
-            int keyPress = Console.ReadKey().KeyChar - '0';
-            if (keyPress == 0)
-            {
-                IPUtils.SendUdpOfType(PktType.STRMSG, IPUtils.serverSendPort, cIPs[0], IPUtils.clientPort, Encoding.ASCII.GetBytes("HEY"));
-            }
-            else
-            {
-                Console.WriteLine("Unknown press");
-            }
+
+            sendGameMessages();
         }
 
     }

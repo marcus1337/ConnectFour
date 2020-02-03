@@ -15,55 +15,77 @@ public class Client
     public UdpListener listener;
     private ClientConnection clientConnection;
 
+    private Player player;
+    private Model model;
+
+    private Stopwatch timer;
+
     public Client()
     {
+        timer = new Stopwatch();
         listener = new UdpListener(IPUtils.clientPort);
         clientConnection = new ClientConnection(this);
     }
-
 
     public bool connectToLANServer(List<string> possibleIPs)
     {
         return clientConnection.foundServerAndConnected(possibleIPs);
     }
 
-
-
     public async Task listenForGameMessagesAsync()
     {
-        while (true)
+        while (IPUtils.webLoopFlag)
         {
             var receiveTask = await listener.ReceiveBytes();
-            object obj = IOStuff.Deserialize(receiveTask.message);
-            if (obj is AlivePacket)
+            clientConnection.handleAlivePacket(receiveTask);
+
+            if(receiveTask.pktType == PktType.MODEL)
             {
-                var content = obj as AlivePacket;
-                Console.WriteLine("Time: " + content.milliseconds);
-            }else
-            if (obj is string)
+                model = (Model)IOStuff.Deserialize(receiveTask.message);
+            }
+            if (receiveTask.pktType == PktType.PLAYER)
             {
-                var content = obj as string;
-                Console.WriteLine("MSG: " + content);
+                player = (Player)IOStuff.Deserialize(receiveTask.message);
             }
 
         }
     }
 
+    public async Task handleHumanInputs()
+    {
+        await Task.Run(() =>
+        {
+            while (IPUtils.webLoopFlag)
+            {
+                if (player == null || model == null)
+                {
+                    IPUtils.SendUdpOfType(PktType.REQUESTGAMEDATA, IPUtils.helloSpamPort, serverIP, IPUtils.serverPort, new byte[] { new byte() });
+                    Thread.Sleep(50);
+                }
+
+                int keyPress = Console.ReadKey().KeyChar - '0';
+                PlayerAction playerAction = new PlayerAction(player, keyPress);
+                IPUtils.SendUdpOfType(PktType.PLAYERACTION, IPUtils.helloSpamPort, serverIP, IPUtils.serverPort, IOStuff.Serialize(playerAction));
+
+                if (keyPress == 9)
+                {
+                    Console.Write(model.getBoardString());
+                }
+            }
+        });
+    }
+
     public void startGame()
     {
         var listenerTask = listenForGameMessagesAsync();
+        var humanInputTask = handleHumanInputs();
 
-        while (true)
+        while (IPUtils.webLoopFlag)
         {
-            int keyPress = Console.ReadKey().KeyChar - '0';
-            if (keyPress == 0)
+            if(timer.ElapsedMilliseconds > 3400)
             {
-                var serializedPacket = IOStuff.Serialize(new AlivePacket());
-                IPUtils.SendUdpOfType(PktType.ALIVE, IPUtils.helloSpamPort, serverIP, IPUtils.serverPort, serializedPacket);
-            }
-            else
-            {
-                Console.WriteLine("Unknown press");
+                IPUtils.SendUdpOfType(PktType.ALIVE, IPUtils.helloSpamPort, serverIP, IPUtils.serverPort, IOStuff.Serialize(new AlivePacket()));
+                timer.Restart();
             }
         }
 

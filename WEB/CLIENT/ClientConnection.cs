@@ -66,5 +66,15 @@ class ClientConnection
         return wasResponseAcceptedThenReplyOk(receiveTask);
     }
 
+    public void handleAlivePacket(ReceivedBytes received)
+    {
+        if (received.pktType == PktType.ALIVERESPONSE)
+        {
+            AlivePacket obj = (AlivePacket)IOStuff.Deserialize(received.message);
+            obj.setRoundtripTime();
+            Console.WriteLine("Time: " + obj.milliseecondsRoundtrip);
+        }
+    }
+
 }
 

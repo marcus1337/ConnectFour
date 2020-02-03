@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace ConnectFour2
 {
-    class Controller
+    public class Controller
     {
         private Model model;
         private AI ai;
-
         public bool PlayVsAI { get; set; }
         public Model.COLOR AIColor { get; set; }
-
         public bool exitGame;
 
         public Controller()
@@ -21,6 +19,22 @@ namespace ConnectFour2
             model = new Model();
             ai = new AI();
             AIColor = Model.COLOR.RED;
+        }
+
+        public Model getModel()
+        {
+            return model;
+        }
+
+        public Model getModelCopy()
+        {
+            return model.Clone();
+        }
+
+        public void nextTurn()
+        {
+            if (!model.isGameOver())
+                model.nextTurn();
         }
 
         void printWinningBricks()
@@ -133,6 +147,14 @@ namespace ConnectFour2
             {
                 return getHotseatMove();
             }
+        }
+
+        public bool tryPlace(Model.COLOR playerColor, int rowNum)
+        {
+            if (rowNum > 6 || rowNum < 0 || playerColor != model.currentPlayer)
+                return false;
+            model.placeBrick(rowNum);
+            return model.havePlaced;
         }
 
         public bool tryPlace()

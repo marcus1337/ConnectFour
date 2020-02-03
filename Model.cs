@@ -15,6 +15,21 @@ public class Model
     public bool havePlaced;
     Tuple<int, int> lastBrickPos;
 
+    public Model(int[,] board, int[] rowSpotsLeft, COLOR currentPlayer, bool havePlaced, Tuple<int, int> lastBrickPos)
+    {
+        this.board = board.Clone() as int[,];
+        this.rowSpotsLeft = rowSpotsLeft.Clone() as int[];
+        this.currentPlayer = currentPlayer;
+        this.havePlaced = havePlaced;
+        this.lastBrickPos = lastBrickPos;
+    }
+
+    public Model Clone()
+    {
+        Model modelClone = new Model(board, rowSpotsLeft,currentPlayer,havePlaced,lastBrickPos);
+        return modelClone;
+    }
+
     public void newGame()
     {
         lastBrickPos = new Tuple<int, int>(0, 0);

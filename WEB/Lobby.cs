@@ -42,7 +42,7 @@ public class Lobby
     {
         while (server.awaitNewConnections)
         {
-            await server.waitForPlayersAsync();
+            await server.serverConnect.waitForPlayersAsync();
         }
         Console.WriteLine("END WHILE");
     }
@@ -71,7 +71,7 @@ public class Lobby
         while (!serverWaitForPlayersTask.IsCompleted)
         {
             Console.WriteLine("waiting...");
-            Thread.Sleep(800);
+            Thread.Sleep(2000);
         }
         server.startGame();
     }
@@ -84,7 +84,7 @@ public class Lobby
         while (!connectionTask.IsCompleted)
         {
             Console.WriteLine("connecting...");
-            Thread.Sleep(800);
+            Thread.Sleep(2000);
         }
 
         client.startGame();

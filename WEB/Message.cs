@@ -30,11 +30,28 @@ public class ConnectionSetupMessage
 [SerializableAttribute]
 public class AlivePacket
 {
-    public long milliseconds;
+    public long millisecondsAtClient;
+    public long millisecondsAtServer;
+    public long milliseecondsRoundtrip;
+
+    private long timeInMillis()
+    {
+        return DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+    }
 
     public AlivePacket()
     {
-        milliseconds = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+        millisecondsAtClient = timeInMillis();
+    }
+
+    public void setServerTimeStamp()
+    {
+        millisecondsAtServer = timeInMillis();
+    }
+
+    public void setRoundtripTime()
+    {
+        milliseecondsRoundtrip = timeInMillis() - millisecondsAtClient;
     }
 }
 

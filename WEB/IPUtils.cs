@@ -19,7 +19,11 @@ public enum PktType:uint
     UNKNOWN = 0,
     STRMSG = 1,
     MODEL = 2,
-    ALIVE = 3
+    ALIVE = 3,
+    ALIVERESPONSE= 4,
+    PLAYER = 5,
+    PLAYERACTION = 6,
+    REQUESTGAMEDATA = 7
 }
 
 public class IPUtils
@@ -33,6 +37,7 @@ public class IPUtils
     public static readonly string helloClientToServer = "R U SERVER?";
     public static readonly string helloServerToClient = "Yep - added U if OK?";
     public static readonly string helloClientToServerVerify = "Okay add me to server!";
+    public static bool webLoopFlag = true;
 
     public IPUtils()
     {
@@ -64,6 +69,14 @@ public class IPUtils
             p.SendAsync(ip, 150, ip);
         }
         return new List<string>(LANIPs); ;
+    }
+
+    public static void SpamSendUdpOfType(PktType pktType, int srcPort, string dstIp, int dstPort, byte[] data, int numPackets = 4)
+    {
+        for(int i = 0; i < numPackets; i++)
+        {
+            SendUdpOfType(pktType, srcPort, dstIp, dstPort, data);
+        }   
     }
 
     public static void SendUdpOfType(PktType pktType, int srcPort, string dstIp, int dstPort, byte[] data)
