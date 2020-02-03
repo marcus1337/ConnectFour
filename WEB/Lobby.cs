@@ -71,8 +71,9 @@ public class Lobby
         while (!serverWaitForPlayersTask.IsCompleted)
         {
             Console.WriteLine("waiting...");
-            Thread.Sleep(100);
+            Thread.Sleep(800);
         }
+        server.startGame();
     }
 
     public void joinLAN()
@@ -83,9 +84,10 @@ public class Lobby
         while (!connectionTask.IsCompleted)
         {
             Console.WriteLine("connecting...");
-            Thread.Sleep(100);
+            Thread.Sleep(800);
         }
 
+        client.startGame();
     }
 
 }

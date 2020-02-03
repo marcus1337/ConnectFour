@@ -19,19 +19,23 @@ class ClientConnection
         for (int i = 0; i < 10; i++)
             foreach (string ip in possibleIPs)
             {
-                IPUtils.SendUdp(IPUtils.helloSpamPort, ip, IPUtils.helloServerPort, Encoding.ASCII.GetBytes(IPUtils.helloClientToServer));
+                IPUtils.SendUdpOfType(PktType.STRMSG, IPUtils.helloSpamPort, ip, IPUtils.serverPort, Encoding.ASCII.GetBytes(IPUtils.helloClientToServer));
             }
     }
 
-    private void handleHelloResponse(Received response)
+    private void handleHelloResponse(ReceivedBytes response)
     {
-        client.serverIP = response.Sender.Address.ToString();
-        Console.WriteLine("Received " + response.Message);
-        for (int i = 0; i < 10; i++)
-            IPUtils.SendUdp(IPUtils.helloSpamPort, client.serverIP, IPUtils.helloServerPort, Encoding.ASCII.GetBytes(IPUtils.helloClientToServerVerify));
+        if(response.pktType == PktType.STRMSG)
+        {
+            string responseTxt = response.strMsg;
+            client.serverIP = response.senderAdress;
+            Console.WriteLine("Received " + responseTxt);
+            for (int i = 0; i < 10; i++)
+                IPUtils.SendUdpOfType(PktType.STRMSG, IPUtils.helloSpamPort, client.serverIP, IPUtils.serverPort, Encoding.ASCII.GetBytes(IPUtils.helloClientToServerVerify));
+        }
     }
 
-    private void waitForResponse(Task<Received> receiveTask)
+    private void waitForResponse(Task<ReceivedBytes> receiveTask)
     {
         var timer = new Stopwatch();
         timer.Start();
@@ -43,11 +47,12 @@ class ClientConnection
         }
     }
 
-    private bool wasResponseAcceptedThenReplyOk(Task<Received> receiveTask)
+    private bool wasResponseAcceptedThenReplyOk(Task<ReceivedBytes> receiveTask)
     {
-        if (receiveTask.IsCompleted && receiveTask.Result.Message == IPUtils.helloServerToClient)
+        var pkt = receiveTask.Result;
+        if (pkt.pktType == PktType.STRMSG && receiveTask.IsCompleted && pkt.strMsg == IPUtils.helloServerToClient)
         {
-            handleHelloResponse(receiveTask.Result);
+            handleHelloResponse(pkt);
             return true;
         }
         return false;
@@ -55,7 +60,7 @@ class ClientConnection
 
     public bool foundServerAndConnected(List<string> possibleIPs)
     {
-        var receiveTask = client.listener.Receive();
+        var receiveTask = client.listener.ReceiveBytes();
         sendHellos(possibleIPs);
         waitForResponse(receiveTask);
         return wasResponseAcceptedThenReplyOk(receiveTask);

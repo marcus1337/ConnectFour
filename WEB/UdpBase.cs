@@ -6,10 +6,13 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-public struct Received
+public struct ReceivedBytes
 {
     public IPEndPoint Sender;
-    public string Message;
+    public string senderAdress;
+    public byte[] message;
+    public PktType pktType;
+    public string strMsg;
 }
 
 public abstract class UdpBase
@@ -27,14 +30,28 @@ public abstract class UdpBase
         Client = new UdpClient();
     }
 
-    public async Task<Received> Receive()
+    public async Task<ReceivedBytes> ReceiveBytes()
     {
         var result = await Client.ReceiveAsync();
-        return new Received()
+        ReceivedBytes receivedBytes = new ReceivedBytes();
+        receivedBytes.message = result.Buffer.ToArray();
+        receivedBytes.senderAdress = result.RemoteEndPoint.Address.ToString();
+        receivedBytes.Sender = result.RemoteEndPoint;
+        if(receivedBytes.message.Length > 2)
         {
-            Message = Encoding.ASCII.GetString(result.Buffer, 0, result.Buffer.Length),
-            Sender = result.RemoteEndPoint
-        };
+            receivedBytes.pktType = IPUtils.extractPktType(receivedBytes.message);
+            receivedBytes.message = IPUtils.extractData(receivedBytes.message);
+        }
+        else
+        {
+            receivedBytes.pktType = PktType.UNKNOWN;
+        }
+        if(receivedBytes.pktType == PktType.STRMSG)
+        {
+            receivedBytes.strMsg = Encoding.ASCII.GetString(receivedBytes.message);
+        }
+
+        return receivedBytes;
     }
 }
 
@@ -52,12 +69,6 @@ public class UdpListener : UdpBase
         Client = new UdpClient(_listenOn);
     }
 
-    public void Reply(string message, IPEndPoint endpoint)
-    {
-        var datagram = Encoding.ASCII.GetBytes(message);
-        Client.Send(datagram, datagram.Length, endpoint);
-    }
-
 }
 
 public class UdpUser : UdpBase
@@ -69,12 +80,6 @@ public class UdpUser : UdpBase
         var connection = new UdpUser();
         connection.Client.Connect(hostname, port);
         return connection;
-    }
-
-    public void Send(string message)
-    {
-        var datagram = Encoding.ASCII.GetBytes(message);
-        Client.Send(datagram, datagram.Length);
     }
 
 }

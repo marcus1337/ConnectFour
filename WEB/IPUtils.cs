@@ -14,14 +14,22 @@ using System.Threading.Tasks;
  *                              DO NOT REMOVE THIS COMMENT
  * ==================================================================================== */
 
+public enum PktType:uint
+{
+    UNKNOWN = 0,
+    STRMSG = 1,
+    MODEL = 2,
+    ALIVE = 3
+}
+
 public class IPUtils
 {
     private List<string> LANIPs;
     private static object lockObj = new object();
-    public static readonly int helloClientPort = 5643;
-    public static readonly int helloServerPort = 5644;
-    public static readonly int serverSendPort = 5648;
-    public static readonly int helloSpamPort = 5533;
+    public static readonly int clientPort = 5643;
+    public static readonly int serverPort = 5644;
+    public static readonly int serverSendPort = 5648;   //send packet
+    public static readonly int helloSpamPort = 5533;    //send packet
     public static readonly string helloClientToServer = "R U SERVER?";
     public static readonly string helloServerToClient = "Yep - added U if OK?";
     public static readonly string helloClientToServerVerify = "Okay add me to server!";
@@ -56,6 +64,26 @@ public class IPUtils
             p.SendAsync(ip, 150, ip);
         }
         return new List<string>(LANIPs); ;
+    }
+
+    public static void SendUdpOfType(PktType pktType, int srcPort, string dstIp, int dstPort, byte[] data)
+    {
+        byte b0 = (byte)(int)pktType;
+        byte b1 = (byte)((int)pktType >> 8);
+        byte[] pktTypeData = new byte[2] { b0, b1 };
+        byte[] dataPacket = Combine(pktTypeData, data);
+        SendUdp(srcPort, dstIp, dstPort, dataPacket);
+    }
+
+    public static PktType extractPktType(byte[] packet)
+    {
+        byte[] firstTwoBytesOfPacket = packet.Take(2).ToArray(); 
+        return (PktType)BitConverter.ToInt16(firstTwoBytesOfPacket, 0);
+    }
+
+    public static byte[] extractData(byte[] packet)
+    {
+        return packet.Skip(2).ToArray();
     }
 
     public static void SendUdp(int srcPort, string dstIp, int dstPort, byte[] data)
@@ -112,6 +140,14 @@ public class IPUtils
         }
 
         return ipUint;
+    }
+
+    public static byte[] Combine(byte[] first, byte[] second)
+    {
+        byte[] ret = new byte[first.Length + second.Length];
+        Buffer.BlockCopy(first, 0, ret, 0, first.Length);
+        Buffer.BlockCopy(second, 0, ret, first.Length, second.Length);
+        return ret;
     }
 
 }

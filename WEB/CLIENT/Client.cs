@@ -17,7 +17,7 @@ public class Client
 
     public Client()
     {
-        listener = new UdpListener(IPUtils.helloClientPort);
+        listener = new UdpListener(IPUtils.clientPort);
         clientConnection = new ClientConnection(this);
     }
 
@@ -25,6 +25,48 @@ public class Client
     public bool connectToLANServer(List<string> possibleIPs)
     {
         return clientConnection.foundServerAndConnected(possibleIPs);
+    }
+
+
+
+    public async Task listenForGameMessagesAsync()
+    {
+        while (true)
+        {
+            var receiveTask = await listener.ReceiveBytes();
+            object obj = IOStuff.Deserialize(receiveTask.message);
+            if (obj is AlivePacket)
+            {
+                var content = obj as AlivePacket;
+                Console.WriteLine("Time: " + content.milliseconds);
+            }else
+            if (obj is string)
+            {
+                var content = obj as string;
+                Console.WriteLine("MSG: " + content);
+            }
+
+        }
+    }
+
+    public void startGame()
+    {
+        var listenerTask = listenForGameMessagesAsync();
+
+        while (true)
+        {
+            int keyPress = Console.ReadKey().KeyChar - '0';
+            if (keyPress == 0)
+            {
+                var serializedPacket = IOStuff.Serialize(new AlivePacket());
+                IPUtils.SendUdpOfType(PktType.ALIVE, IPUtils.helloSpamPort, serverIP, IPUtils.serverPort, serializedPacket);
+            }
+            else
+            {
+                Console.WriteLine("Unknown press");
+            }
+        }
+
     }
 
 }
