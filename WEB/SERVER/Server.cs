@@ -10,14 +10,12 @@ using System.Threading.Tasks;
 
 public class Server
 {
-
     public bool awaitNewConnections;
     public HashSet<string> clientIPs;
-    List<string> clientAdresses;
+    public List<string> clientAdresses;
     public UdpListener listener;
     public ServerConnect serverConnect;
     public WebGame webGame;
-
     private Stopwatch timer;
 
     public Server()
@@ -43,16 +41,6 @@ public class Server
         }
     }
 
-    public async Task listenForGameMessagesAsync()
-    {
-        while (IPUtils.webLoopFlag)
-        {
-            var receiveTask = await listener.ReceiveBytes();
-            serverConnect.handleAlivePacket(receiveTask);
-            handleGamePacket(receiveTask);
-        }
-    }
-
     public void sendGameMessages()
     {
         if (webGame.wasUpdated || timer.ElapsedMilliseconds > 600)
@@ -62,6 +50,16 @@ public class Server
             timer.Restart();
         }
         
+    }
+
+    public async Task listenForGameMessagesAsync()
+    {
+        while (IPUtils.webLoopFlag)
+        {
+            var receiveTask = await listener.ReceiveBytes();
+            serverConnect.handleAlivePacket(receiveTask);
+            handleGamePacket(receiveTask);
+        }
     }
 
     public async Task handleHumanInputs()
@@ -86,13 +84,11 @@ public class Server
     public void startGame()
     {
         var listenerTask = listenForGameMessagesAsync();
-        clientAdresses = clientIPs.ToList();
         var humanInputsTask = handleHumanInputs();
         timer.Start();
 
         while (IPUtils.webLoopFlag)
         {
-
             sendGameMessages();
         }
 

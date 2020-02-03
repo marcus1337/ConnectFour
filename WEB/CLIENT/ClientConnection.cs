@@ -8,8 +8,11 @@ using System.Threading.Tasks;
 class ClientConnection
 {
     private Client client;
+    public AlivePacket latestAlivePacket;
+
     public ClientConnection(Client client)
     {
+        latestAlivePacket = new AlivePacket();
         this.client = client;
     }
 
@@ -72,8 +75,13 @@ class ClientConnection
         {
             AlivePacket obj = (AlivePacket)IOStuff.Deserialize(received.message);
             obj.setRoundtripTime();
-            Console.WriteLine("Time: " + obj.milliseecondsRoundtrip);
+            latestAlivePacket = obj;
         }
+    }
+
+    public bool wasConnectionLost()
+    {
+        return AlivePacket.timeInMillis() - latestAlivePacket.millisecondsAtClient > 8000;
     }
 
 }

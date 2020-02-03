@@ -14,10 +14,8 @@ public class Client
     public string serverIP { get; set; }
     public UdpListener listener;
     private ClientConnection clientConnection;
-
     private Player player;
     private Model model;
-
     private Stopwatch timer;
 
     public Client()
@@ -32,6 +30,26 @@ public class Client
         return clientConnection.foundServerAndConnected(possibleIPs);
     }
 
+    public bool initializingGame()
+    {
+        if (player == null || model == null)
+        {
+            IPUtils.SendUdpOfType(PktType.REQUESTGAMEDATA, IPUtils.helloSpamPort, serverIP, IPUtils.serverPort, new byte[] { new byte() });
+            Thread.Sleep(50);
+            return true;
+        }
+        return false;
+    }
+
+    public void sendAlivePacket()
+    {
+        if (timer.ElapsedMilliseconds > 400)
+        {
+            IPUtils.SendUdpOfType(PktType.ALIVE, IPUtils.helloSpamPort, serverIP, IPUtils.serverPort, IOStuff.Serialize(new AlivePacket()));
+            timer.Restart();
+        }
+    }
+
     public async Task listenForGameMessagesAsync()
     {
         while (IPUtils.webLoopFlag)
@@ -39,7 +57,7 @@ public class Client
             var receiveTask = await listener.ReceiveBytes();
             clientConnection.handleAlivePacket(receiveTask);
 
-            if(receiveTask.pktType == PktType.MODEL)
+            if (receiveTask.pktType == PktType.MODEL)
             {
                 model = (Model)IOStuff.Deserialize(receiveTask.message);
             }
@@ -57,11 +75,8 @@ public class Client
         {
             while (IPUtils.webLoopFlag)
             {
-                if (player == null || model == null)
-                {
-                    IPUtils.SendUdpOfType(PktType.REQUESTGAMEDATA, IPUtils.helloSpamPort, serverIP, IPUtils.serverPort, new byte[] { new byte() });
-                    Thread.Sleep(50);
-                }
+                if (initializingGame())
+                    continue;
 
                 int keyPress = Console.ReadKey().KeyChar - '0';
                 PlayerAction playerAction = new PlayerAction(player, keyPress);
@@ -75,19 +90,22 @@ public class Client
         });
     }
 
+    public async Task sendAutomaticGameData()
+    {
+        await Task.Run(() =>
+        {
+            while (IPUtils.webLoopFlag)
+            {
+                sendAlivePacket();
+            }
+        });
+    }
+
     public void startGame()
     {
         var listenerTask = listenForGameMessagesAsync();
         var humanInputTask = handleHumanInputs();
-
-        while (IPUtils.webLoopFlag)
-        {
-            if(timer.ElapsedMilliseconds > 3400)
-            {
-                IPUtils.SendUdpOfType(PktType.ALIVE, IPUtils.helloSpamPort, serverIP, IPUtils.serverPort, IOStuff.Serialize(new AlivePacket()));
-                timer.Restart();
-            }
-        }
+        var sendAutomaticDataTask = sendAutomaticGameData();
 
     }
 

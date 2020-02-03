@@ -34,7 +34,7 @@ public class AlivePacket
     public long millisecondsAtServer;
     public long milliseecondsRoundtrip;
 
-    private long timeInMillis()
+    public static long timeInMillis()
     {
         return DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
     }

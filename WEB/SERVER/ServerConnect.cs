@@ -26,7 +26,10 @@ public class ServerConnect
         {
             server.clientIPs.Add(receiveTask.senderAdress);
             if (server.clientIPs.Count == 1)
+            {
+                server.clientAdresses = server.clientIPs.ToList();
                 server.awaitNewConnections = false;
+            }
             Console.WriteLine("SERVER IS READY");
         }
     }
