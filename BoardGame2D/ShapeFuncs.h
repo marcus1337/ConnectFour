@@ -68,4 +68,16 @@ public:
         return tmpMessage;
     }
 
+    /*static std::string getSpacePaddedText(std::string txt, int paddingMax = 10) {
+        int txtSize = txt.size();
+        if (txtSize < paddingMax) {
+            int remainingPadding = paddingMax - txtSize;
+            int extraSpacing = remainingPadding / 2;
+            if (extraSpacing % 2) { extraSpacing++; }
+            std::string padding(extraSpacing*2, ' ');
+            txt = padding + txt + padding;
+        }
+        return txt;
+    }*/
+
 };

@@ -5,6 +5,7 @@
 ShapeHandler::ShapeHandler(std::string exePath) {
     rpath = exePath + "res\\";
     fontPath = exePath + "res\\fonts\\";
+    TTF_Init();
 }
 
 void ShapeHandler::init(SDL_Renderer* _renderer) {
@@ -34,7 +35,7 @@ TTF_Font* ShapeHandler::getFont(std::string fontName, int _fSize) {
     return font;
 }
 
-SDL_Texture* ShapeHandler::getTextTexture(SDL_Renderer* renderer, std::string txt, SDL_Color _colorcode, std::string fontName, int _fSize) {
+SDL_Texture* ShapeHandler::getTextTexture(SDL_Renderer* renderer, std::string txt, SDL_Color _colorcode, std::string fontName, int _fSize) {    
     fontKey fontkey = std::make_pair(fontName, _fSize);
     MsgAndColor msgAndColor = std::make_pair(txt, std::array<Uint8, 4>{_colorcode.r, _colorcode.g, _colorcode.b, _colorcode.a});
     textKey key = std::make_pair(fontkey, msgAndColor);

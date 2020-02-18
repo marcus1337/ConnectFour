@@ -7,7 +7,7 @@ local ySpacing = info.height / 7
 local btnHotSeatPvP = {
     width = btnWidth,
     height = btnHeight,
-    title = "Test window",
+    title = "HUMAN v HUMAN",
 	x = centerX - btnWidth/2,
 	y = centerY - ySpacing*2
 }
@@ -15,7 +15,7 @@ local btnHotSeatPvP = {
 local btnHotSeatPvE = {
     width = btnWidth,
     height = btnHeight,
-    title = "Test wind",
+    title = "HUMAN v CPU",
 	x = centerX - btnWidth/2,
 	y = centerY - ySpacing
 }

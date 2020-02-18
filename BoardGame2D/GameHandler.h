@@ -54,7 +54,7 @@ public:
             inputManager.processInput();
 
             if (isUpdated()) {
-                window.page->updateContent(getMiscInfo(), inputManager);
+                window.page->updateContent(getMiscInfo(), inputManager, window.renderer);
                 drawEverything();
             }
             SDL_Delay(1);

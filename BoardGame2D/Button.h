@@ -1,11 +1,14 @@
 #pragma once
 #include "SDL.h"
 #include <string>
+#include "Text.h"
+#include <iostream>
 
 class Button {
 public:
 
     Button();
+    Text btnText;
 
     void setHover(bool _hoverOn) {
         hoverOn = _hoverOn;
@@ -32,7 +35,6 @@ public:
     }
 
     void render(SDL_Renderer* renderer) {
-
         bool tmpPress = pressed;
         if (forcePress)
             tmpPress = !pressed;
@@ -47,6 +49,47 @@ public:
             SDL_RenderCopy(renderer, textureUp, NULL, &rect);
         else
             SDL_RenderCopy(renderer, textureDown, NULL, &rect);
+
+        if (title.size() > 0) {
+            btnText.draw(renderer);
+        }
+    }
+
+    void adjustTextRectSize(SDL_Texture* txtTexture) {
+        auto tmpRect = getRect();
+        int maxW = (int)(tmpRect.w*1.8f);
+        tmpRect.h -= (int)tmpRect.h / 1.5f;
+        int w, h;
+        SDL_QueryTexture(txtTexture, NULL, NULL, &w, &h);
+        if (w < maxW && maxW != 0 ) {
+            float diffWPercent = 1.0f - ((float)w / maxW);
+            tmpRect.w -= (int)((diffWPercent * maxW) / 2);
+        }
+
+        int minSpacingW = getRect().w / 8;
+        int currentSpacingW = (getRect().w - tmpRect.w)/2;
+        if (minSpacingW > currentSpacingW) {
+            tmpRect.w -= (minSpacingW - currentSpacingW)*2;
+        }
+        
+        btnText.setRect(tmpRect);
+    }
+
+    void adjustTextRectPosition() {
+        auto tmpRectButton = getRect();
+        auto tmpRectText = btnText.getRect();
+        int yDiff = tmpRectButton.h - tmpRectText.h;
+        int xDiff = tmpRectButton.w - tmpRectText.w;
+        tmpRectText.y += yDiff / 2;
+        tmpRectText.x += xDiff / 2;
+        btnText.setRect(tmpRectText);
+    }
+
+    void initBtnText(SDL_Texture* txtTexture) {
+        btnText.setTexture(txtTexture);
+        adjustTextRectSize(txtTexture);
+        adjustTextRectPosition();
+
     }
 
     void setRect(SDL_Rect _rect) {
@@ -117,6 +160,10 @@ public:
 
     void setText(std::string _title) {
         title = _title;
+    }
+
+    std::string getText() {
+        return title;
     }
 
 private:

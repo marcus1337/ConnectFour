@@ -15,6 +15,6 @@ public:
         lua_close(state);
     }
     virtual void draw(SDL_Renderer *) = 0;
-    virtual void updateContent(MiscInfo miscInfo, InputManager& inputmanager) = 0;
+    virtual void updateContent(MiscInfo miscInfo, InputManager& inputmanager, SDL_Renderer* renderer) = 0;
 
 };
