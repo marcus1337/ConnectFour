@@ -1,26 +1,42 @@
-local btnWidth = info.width / 10
-local btnHeight = info.height / 10
+local btnWidth = info.width / 3
+local btnHeight = info.height / 4
 local centerX = info.width / 2
 local centerY = info.height / 2
-local ySpacing = info.height / 10
+local ySpacing = info.height / 7
 
-local button1 = {
+local btnHotSeatPvP = {
     width = btnWidth,
     height = btnHeight,
     title = "Test window",
 	x = centerX - btnWidth/2,
-	y = centerY - ySpacing
+	y = centerY - ySpacing*2
 }
 
-local button2 = {
+local btnHotSeatPvE = {
     width = btnWidth,
     height = btnHeight,
     title = "Test wind",
 	x = centerX - btnWidth/2,
-	y = centerY - ySpacing*2
+	y = centerY - ySpacing
+}
+
+local btnLANCreate = {
+    width = btnWidth,
+    height = btnHeight,
+    title = "Host LAN",
+	x = centerX - btnWidth/2,
+	y = centerY
+}
+
+local btnLANJoin = {
+    width = btnWidth,
+    height = btnHeight,
+    title = "Join LAN",
+	x = centerX - btnWidth/2,
+	y = centerY + ySpacing
 }
 
 getButtons = function()
-	return button1, button2
+	return btnHotSeatPvP, btnHotSeatPvE, btnLANCreate, btnLANJoin
 end
 

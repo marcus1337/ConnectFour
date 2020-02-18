@@ -14,16 +14,23 @@ std::string IOStuff::getLuaFilePath() {
     return dirpath + "lua\\";
 }
 
+std::string utf8_encode(const std::wstring &wstr)
+{
+    if (wstr.empty()) return std::string();
+    int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
+    std::string strTo(size_needed, 0);
+    WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &strTo[0], size_needed, NULL, NULL);
+    return strTo;
+}
+
 std::string IOStuff::getexepath()
 {
     wchar_t result[MAX_PATH];
-    std::wstring  filepath = std::wstring(result, GetModuleFileName(NULL, result, MAX_PATH));
+    std::wstring filepath = std::wstring(result, GetModuleFileName(NULL, result, MAX_PATH));
     while (filepath.size() > 0 && filepath[filepath.size() - 1] != '\\') {
         filepath = filepath.substr(0, filepath.size() - 1);
     }
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> convert;
-    std::string utf8NativeString = convert.to_bytes(filepath);
-    return utf8NativeString;
+    return utf8_encode(filepath);
 }
 
 bool IOStuff::isFileModified(std::string filename) {

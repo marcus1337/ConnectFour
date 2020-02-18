@@ -74,5 +74,11 @@
     <ClInclude Include="MiscInfo.h">
       <Filter>Header Files\IO</Filter>
     </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files\MENU</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

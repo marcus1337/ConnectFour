@@ -11,7 +11,7 @@ public:
     };
 
     virtual void draw(SDL_Renderer* renderer) {
-        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+        SDL_SetRenderDrawColor(renderer, 0, 80, 0, 255);
         SDL_RenderClear(renderer);
         for (auto& button : buttons) {
             button.render(renderer);

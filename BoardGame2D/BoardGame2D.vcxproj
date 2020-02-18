@@ -94,6 +94,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\Marcus\source\repos\BoardGame2D\extras\SDL2_mixer-devel-2.0.4-VC\SDL2_mixer-2.0.4\include;C:\Users\Marcus\source\repos\BoardGame2D\extras\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-2.0.15\include;C:\Users\Marcus\source\repos\BoardGame2D\extras\SDL2_image-devel-2.0.5-VC\SDL2_image-2.0.5\include;C:\Users\Marcus\source\repos\BoardGame2D\extras\LUA535\include;C:\Users\Marcus\source\repos\BoardGame2D\extras\SDL2-2.0.10\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>C:\Users\Marcus\source\repos\BoardGame2D\extras;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -177,6 +178,8 @@
     <ClInclude Include="Page.h" />
     <ClInclude Include="ShapeFuncs.h" />
     <ClInclude Include="ShapeHandler.h" />
+    <ClInclude Include="Text.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

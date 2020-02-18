@@ -59,4 +59,13 @@ public:
         }
     }
 
+    static SDL_Texture* makeTextTexture(SDL_Renderer* renderer, std::string txt, SDL_Color _colorcode, TTF_Font* _ttf) {
+        SDL_Texture* tmpMessage = nullptr;
+        SDL_Surface* surfaceMessage = TTF_RenderText_Blended(_ttf, txt.c_str(), _colorcode);
+        ShapeFuncs::setSurfaceAlpha(surfaceMessage, _colorcode.a);
+        tmpMessage = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+        SDL_FreeSurface(surfaceMessage);
+        return tmpMessage;
+    }
+
 };
