@@ -6,6 +6,7 @@
 #include "MiscInfo.h"
 #include <vector>
 #include "ShapeHandler.h"
+#include "Image.h"
 
 namespace LuaToCpp {
 
@@ -90,18 +91,95 @@ namespace CppToLua {
         return button;
     }
 
+    static void loadImageTableToStack(lua_State* _L) {
+        lua_pushstring(_L, "width");
+        lua_gettable(_L, -2);
+        lua_pushstring(_L, "height");
+        lua_gettable(_L, -3);
+        lua_pushstring(_L, "x");
+        lua_gettable(_L, -4);
+        lua_pushstring(_L, "y");
+        lua_gettable(_L, -5);
+        lua_pushstring(_L, "imageName");
+        lua_gettable(_L, -6);
+    }
+
+    static Image makeImageFromStackData(lua_State* _L) {
+        Image image;
+        int tmpWidth = lua_tonumber(_L, -5);
+        int tmpHeight = lua_tonumber(_L, -4);
+        int tmpX = lua_tonumber(_L, -3);
+        int tmpY = lua_tonumber(_L, -2);
+        std::string imageName = lua_tostring(_L, -1);
+        auto imageRect = image.getRect();
+        imageRect.w = tmpWidth;
+        imageRect.h = tmpHeight;
+        imageRect.x = tmpX;
+        imageRect.y = tmpY;
+        image.setRect(imageRect);
+        image.imageName = imageName;
+        return image;
+    }
+
+    static Image getImageFromTable(lua_State* _L) {
+        loadImageTableToStack(_L);
+        Image image = makeImageFromStackData(_L);
+        lua_pop(_L, 6);
+        return image;
+    }
+
+    static bool loadedLuaFunction(lua_State* _L, std::string functionName) {
+        lua_getglobal(_L, functionName.c_str());
+        bool isAFunction = lua_isfunction(_L, -1);
+        if (!isAFunction) {
+            lua_pop(_L, 1);
+            return false;
+        }
+        return true;
+    }
+
     static std::vector<Button> getButtonsFromLua(lua_State* _L, ShapeHandler& shapeHandler) {
         std::vector<Button> tmpButtons;
-        lua_getglobal(_L, "getButtons");
+        if (!loadedLuaFunction(_L, "getButtons"))
+            return tmpButtons;
+
         lua_pcall(_L, 0, LUA_MULTRET, 0);
         int numberOfTables = lua_gettop(_L) - 1;
+
+        if (numberOfTables == 1 && lua_isnil(_L, -1)) {
+            lua_pop(_L, 1);
+            return tmpButtons;
+        }
 
         for (int i = 0; i < numberOfTables; i++) {
             Button button = getButtonFromTable(_L);
             button.setImage(shapeHandler.button1, shapeHandler.button1_pressed);
             tmpButtons.push_back(button);
         }
+
         return tmpButtons;
+    }
+
+    static std::vector<Image> getImagesFromLua(lua_State* _L, ShapeHandler& shapeHandler, SDL_Renderer* renderer) {
+        std::vector<Image> tmpImages;
+        if (!loadedLuaFunction(_L, "getImages"))
+            return tmpImages;
+
+        lua_pcall(_L, 0, LUA_MULTRET, 0);
+        int numberOfTables = lua_gettop(_L) - 1;
+
+        if (numberOfTables == 1 && lua_isnil(_L, -1)) {
+            lua_pop(_L, 1);
+            return tmpImages;
+        }
+
+        for (int i = 0; i < numberOfTables; i++) {
+            Image image = getImageFromTable(_L);
+            image.texture = shapeHandler.getImageTexture(renderer, image.imageName);
+            tmpImages.push_back(image);
+        }
+
+        return tmpImages;
     }
 
 }

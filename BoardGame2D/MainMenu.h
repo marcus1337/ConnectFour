@@ -6,6 +6,7 @@
 class MainMenu : public Page {
 public:
     std::vector<Button> buttons;
+    std::vector<Image> images;
     Text text;
 
     MainMenu(ShapeHandler& _shapeHandler, IOStuff& _iostuff) : Page(_shapeHandler, _iostuff) {
@@ -17,6 +18,9 @@ public:
         SDL_RenderClear(renderer);
 
         //text.setTexture(shapeHandler.getTextTexture(renderer, "Hello World 123", SDL_Color{ 0,255,255,255 }, "calibrib.ttf",100));
+        for (auto& image : images) {
+            image.draw(renderer);
+        }
 
         for (auto& button : buttons) {
             button.render(renderer);
@@ -43,6 +47,7 @@ public:
     void setupContentFromLua(SDL_Renderer* renderer, MiscInfo miscInfo) {
         CppToLua::initLuaFile(state, iostuff.getLuaFilePath() + FileNames::mainMenuLua, miscInfo);
         buttons = CppToLua::getButtonsFromLua(state, shapeHandler);
+        images = CppToLua::getImagesFromLua(state, shapeHandler, renderer);
 
         for (auto& button : buttons) {
             if (button.getText().size() > 0)

@@ -45,3 +45,17 @@ getButtons = function()
 	return btnHotSeatPvP, btnHotSeatPvE, btnLANCreate, btnLANJoin
 end
 
+----------------------
+
+local background = {
+	width = 500,
+	height = 500,
+	x = 0,
+	y = 0,
+	imageName = "button1.png"
+
+}
+
+getImages = function()
+	return background
+end

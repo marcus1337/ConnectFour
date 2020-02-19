@@ -14,6 +14,7 @@ private:
 
     std::map<fontKey, TTF_Font*> fonts;
     std::map<textKey, SDL_Texture*> textTextures;
+    std::map<std::string, SDL_Texture*> imageTextures;
     std::string rpath;
     std::string fontPath;
 
@@ -28,5 +29,6 @@ public:
 
     TTF_Font* getFont(std::string fontName ,int _fSize = 24);
     SDL_Texture* getTextTexture(SDL_Renderer* renderer, std::string txt, SDL_Color _colorcode, std::string fontName, int _fSize = 24);
+    SDL_Texture* getImageTexture(SDL_Renderer* renderer, std::string imageName);
 
 };

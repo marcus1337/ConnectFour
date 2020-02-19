@@ -23,6 +23,8 @@ void ShapeHandler::deleteVariables() {
         TTF_CloseFont(val);
     for (auto const&[key, val] : textTextures)
         SDL_DestroyTexture(val);
+    for (auto const&[key, val] : imageTextures)
+        SDL_DestroyTexture(val);
 }
 
 TTF_Font* ShapeHandler::getFont(std::string fontName, int _fSize) {
@@ -44,4 +46,12 @@ SDL_Texture* ShapeHandler::getTextTexture(SDL_Renderer* renderer, std::string tx
     SDL_Texture* textTexture = ShapeFuncs::makeTextTexture(renderer, txt, _colorcode, getFont(fontName, _fSize));
     textTextures[key] = textTexture;
     return textTexture;
+}
+
+SDL_Texture* ShapeHandler::getImageTexture(SDL_Renderer* renderer, std::string imageName) {
+    if (Utils::mapContainsKey< std::string, SDL_Texture*>(imageTextures, imageName))
+        return imageTextures[imageName];
+    SDL_Texture* tmpTexture = ShapeFuncs::textureFromPath(renderer, rpath + imageName);
+    imageTextures[imageName] = tmpTexture;
+    return tmpTexture;
 }
