@@ -19,26 +19,43 @@ public:
     ShapeHandler shapeHandler;
     IOStuff iostuff;
 
-    GameHandler() : ticks(0), shapeHandler(IOStuff::getexepath()) {
+    PageState pageState;
+
+    GameHandler() : ticks(0), shapeHandler(IOStuff::getexepath()), pageState(PageState::MAINMENU) {
         shapeHandler.init(window.renderer);
-        window.changePage(new MainMenu(shapeHandler, iostuff));
+        window.changePage(new MainMenu(shapeHandler, iostuff), getMiscInfo());
     }
 
-    bool isUpdated() {
+    void addLagTime() {
         using namespace std::chrono;
-        bool anUpdate = false;
         auto current = steady_clock::now();
         Uint64 diff = duration_cast<microseconds>(current - previous).count();
         previous = current;
         lag += diff;
         if (lag > MS_FRAME * 300)
             lag = 0;
+    }
 
+    void handlePageChange(PageState _newPageState) {
+        if (_newPageState) {
+            if (_newPageState == PageState::MAINMENU)
+                window.changePage(new MainMenu(shapeHandler, iostuff), getMiscInfo());
+        }
+    }
+
+    void gameTick() {
+        auto _newPageState = window.page->process(getMiscInfo(), inputManager);
+        handlePageChange(_newPageState);
+        inputManager.resetStates();
+        lag -= MS_FRAME;
+        ticks++;
+    }
+
+    bool updateGameIfTime() {
+        bool anUpdate = false;
+        addLagTime();
         while (lag >= MS_FRAME) {
-            window.page->process(getMiscInfo(), inputManager);
-            inputManager.resetStates();
-            lag -= MS_FRAME;
-            ticks++;
+            gameTick();
             anUpdate = true;
         }
         return anUpdate;
@@ -60,7 +77,7 @@ public:
         while (!inputManager.shutdownGame) {
             inputManager.processInput();
 
-            if (isUpdated()) {
+            if (updateGameIfTime()) {
                 window.page->updateContent(getMiscInfo(), inputManager, window.renderer);
                 drawEverything();
             }

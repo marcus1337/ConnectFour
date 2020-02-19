@@ -166,6 +166,8 @@ public:
         return title;
     }
 
+    int value = 0;
+
 private:
     SDL_Texture* textureDown;
     SDL_Texture* textureUp;

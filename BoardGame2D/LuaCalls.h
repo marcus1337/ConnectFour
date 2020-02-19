@@ -60,15 +60,18 @@ namespace CppToLua {
         lua_gettable(_L, -5);
         lua_pushstring(_L, "y");
         lua_gettable(_L, -6);
+        lua_pushstring(_L, "value");
+        lua_gettable(_L, -7);
     }
 
     static Button makeButtonFromStackData(lua_State* _L) {
         Button button;
-        int tmpWidth = lua_tonumber(_L, -5);
-        int tmpHeight = lua_tonumber(_L, -4);
-        std::string tmpTitle = lua_tostring(_L, -3);
-        int tmpX = lua_tonumber(_L, -2);
-        int tmpY = lua_tonumber(_L, -1);
+        int tmpWidth  = lua_tonumber(_L, -6);
+        int tmpHeight = lua_tonumber(_L, -5);
+        std::string tmpTitle = lua_tostring(_L, -4);
+        int tmpX = lua_tonumber(_L, -3);
+        int tmpY = lua_tonumber(_L, -2);
+        int btnValue = lua_tonumber(_L, -1);
         auto btnRect = button.getRect();
         btnRect.w = tmpWidth;
         btnRect.h = tmpHeight;
@@ -76,13 +79,14 @@ namespace CppToLua {
         btnRect.y = tmpY;
         button.setRect(btnRect);
         button.setText(tmpTitle);
+        button.value = btnValue;
         return button;
     }
 
     static Button getButtonFromTable(lua_State* _L) {
         loadButtonTableToStack(_L);
         Button button = makeButtonFromStackData(_L);
-        lua_pop(_L, 6);
+        lua_pop(_L, 7);
         return button;
     }
 

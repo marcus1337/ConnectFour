@@ -6,6 +6,7 @@ local ySpacing = info.height / 5 - 10
 local ySpaceBias = info.height/10;
 
 local btnHotSeatPvP = {
+	value = 1,
     width = btnWidth,
     height = btnHeight,
     title = "HUMAN v HUMAN",
@@ -14,6 +15,7 @@ local btnHotSeatPvP = {
 }
 
 local btnHotSeatPvE = {
+	value = 2,
     width = btnWidth,
     height = btnHeight,
     title = "HUMAN v CPU",
@@ -22,6 +24,7 @@ local btnHotSeatPvE = {
 }
 
 local btnLANCreate = {
+	value = 3,
     width = btnWidth,
     height = btnHeight,
     title = "Host LAN",
@@ -30,6 +33,7 @@ local btnLANCreate = {
 }
 
 local btnLANJoin = {
+	value = 4,
     width = btnWidth,
     height = btnHeight,
     title = "Join LAN",

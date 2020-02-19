@@ -10,9 +10,10 @@ public:
     SDL_Renderer *renderer;
     Page* page = nullptr;
 
-    void changePage(Page* newPage) {
+    void changePage(Page* newPage, MiscInfo miscInfo) {
         delete page;
         page = newPage;
+        page->onStart(renderer, miscInfo);
     }
 
     Window() {

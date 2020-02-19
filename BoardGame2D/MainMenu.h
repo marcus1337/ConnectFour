@@ -23,14 +23,30 @@ public:
         }
     }
 
-    virtual void process(MiscInfo miscInfo, InputManager& inputs) {
+    virtual PageState process(MiscInfo miscInfo, InputManager& inputs) {
+        PageState pageChange = PageState::NONE;
         for (auto& button : buttons) {
             if (inputs.wasMouseLeftDown) {
                 button.clickPress(inputs.mouseDown.first, inputs.mouseDown.second);
             }
             if (inputs.wasMouseLeftUp) {
-                button.clickRelease(inputs.mouseDown.first, inputs.mouseDown.second);
+                button.clickRelease(inputs.mouseUp.first, inputs.mouseUp.second);
             }
+            if (button.isClicked()) {
+                pageChange = (PageState)button.value;
+            }
+        }
+
+        return pageChange;
+    }
+
+    void setupContentFromLua(SDL_Renderer* renderer, MiscInfo miscInfo) {
+        CppToLua::initLuaFile(state, iostuff.getLuaFilePath() + FileNames::mainMenuLua, miscInfo);
+        buttons = CppToLua::getButtonsFromLua(state, shapeHandler);
+
+        for (auto& button : buttons) {
+            if (button.getText().size() > 0)
+                button.initBtnText(shapeHandler.getTextTexture(renderer, button.getText(), SDL_Color{ 255,255,0,255 }, "arial.ttf", 50));
         }
     }
 
@@ -38,15 +54,13 @@ public:
         if (iostuff.isFileModified(FileNames::mainMenuLua) || inputmanager.resizedWindow)
         {
             inputmanager.resizedWindow = false;
-            CppToLua::initLuaFile(state, iostuff.getLuaFilePath() + FileNames::mainMenuLua, miscInfo);
-            buttons = CppToLua::getButtonsFromLua(state, shapeHandler);
-
-            for (auto& button : buttons) {
-                if (button.getText().size() > 0)
-                    button.initBtnText(shapeHandler.getTextTexture(renderer, button.getText(), SDL_Color{ 255,255,0,255 }, "arial.ttf", 50));
-            }
+            setupContentFromLua(renderer, miscInfo);
 
         }
+    }
+
+    virtual void onStart(SDL_Renderer* renderer, MiscInfo miscInfo) {
+        setupContentFromLua(renderer, miscInfo);
     }
 
 };

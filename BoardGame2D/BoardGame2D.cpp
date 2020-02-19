@@ -9,9 +9,6 @@
 //#using <ConnectFour2.dll>
 using namespace std;
 
- //  CppToLua::runLuaFile(state);
- //  CppToLua::reloadLuaFile(state, iostuff.getLuaFilePath()+ FileNames::mainMenuLua);
-
 int main(int argc, char *argv[])
 {
 
