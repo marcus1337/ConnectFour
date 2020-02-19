@@ -5,6 +5,8 @@
 #include "InputManager.h"
 #include "ShapeHandler.h"
 
+#include <iostream>
+
 class GameHandler {
 public:
 
@@ -29,7 +31,12 @@ public:
         Uint64 diff = duration_cast<microseconds>(current - previous).count();
         previous = current;
         lag += diff;
+        if (lag > MS_FRAME * 300)
+            lag = 0;
+
         while (lag >= MS_FRAME) {
+            window.page->process(getMiscInfo(), inputManager);
+            inputManager.resetStates();
             lag -= MS_FRAME;
             ticks++;
             anUpdate = true;

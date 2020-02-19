@@ -23,6 +23,17 @@ public:
         }
     }
 
+    virtual void process(MiscInfo miscInfo, InputManager& inputs) {
+        for (auto& button : buttons) {
+            if (inputs.wasMouseLeftDown) {
+                button.clickPress(inputs.mouseDown.first, inputs.mouseDown.second);
+            }
+            if (inputs.wasMouseLeftUp) {
+                button.clickRelease(inputs.mouseDown.first, inputs.mouseDown.second);
+            }
+        }
+    }
+
     virtual void updateContent(MiscInfo miscInfo, InputManager& inputmanager, SDL_Renderer* renderer) {
         if (iostuff.isFileModified(FileNames::mainMenuLua) || inputmanager.resizedWindow)
         {

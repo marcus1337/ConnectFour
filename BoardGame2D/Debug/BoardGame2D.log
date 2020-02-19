@@ -7,6 +7,20 @@ c:\users\marcus\documents\github\connectfour\boardgame2d\luacalls.h(67): warning
 c:\users\marcus\documents\github\connectfour\boardgame2d\luacalls.h(68): warning C4244: 'initializing': conversion from 'lua_Number' to 'int', possible loss of data
 c:\users\marcus\documents\github\connectfour\boardgame2d\luacalls.h(70): warning C4244: 'initializing': conversion from 'lua_Number' to 'int', possible loss of data
 c:\users\marcus\documents\github\connectfour\boardgame2d\luacalls.h(71): warning C4244: 'initializing': conversion from 'lua_Number' to 'int', possible loss of data
+  Button.cpp
+c1xx : warning C4199: two-phase name lookup is not supported for C++/CLI, C++/CX, or OpenMP; use /Zc:twoPhase-
+c:\users\marcus\documents\github\connectfour\boardgame2d\shapefuncs.h(56): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
+c:\users\marcus\documents\github\connectfour\boardgame2d\button.h(61): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+  IOStuff.cpp
+c1xx : warning C4199: two-phase name lookup is not supported for C++/CLI, C++/CX, or OpenMP; use /Zc:twoPhase-
+c:\users\marcus\documents\github\connectfour\boardgame2d\shapefuncs.h(56): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
+c:\users\marcus\documents\github\connectfour\boardgame2d\button.h(61): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+c:\users\marcus\documents\github\connectfour\boardgame2d\luacalls.h(29): warning C4244: 'argument': conversion from 'uint64_t' to 'lua_Number', possible loss of data
+c:\users\marcus\documents\github\connectfour\boardgame2d\luacalls.h(67): warning C4244: 'initializing': conversion from 'lua_Number' to 'int', possible loss of data
+c:\users\marcus\documents\github\connectfour\boardgame2d\luacalls.h(68): warning C4244: 'initializing': conversion from 'lua_Number' to 'int', possible loss of data
+c:\users\marcus\documents\github\connectfour\boardgame2d\luacalls.h(70): warning C4244: 'initializing': conversion from 'lua_Number' to 'int', possible loss of data
+c:\users\marcus\documents\github\connectfour\boardgame2d\luacalls.h(71): warning C4244: 'initializing': conversion from 'lua_Number' to 'int', possible loss of data
+  Generating Code...
   BoardGame2D.obj : /DEBUG:FASTLINK is not supported when managed code is present; restarting link with /DEBUG:FULL
   BoardGame2D.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
 ShapeHandler.obj : warning LNK4248: unresolved typeref token (01000017) for 'SDL_Texture'; image may not run

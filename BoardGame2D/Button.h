@@ -58,7 +58,7 @@ public:
     void adjustTextRectSize(SDL_Texture* txtTexture) {
         auto tmpRect = getRect();
         int maxW = (int)(tmpRect.w*1.8f);
-        tmpRect.h -= (int)tmpRect.h / 1.5f;
+        tmpRect.h -= (int)tmpRect.h / 2.0f;
         int w, h;
         SDL_QueryTexture(txtTexture, NULL, NULL, &w, &h);
         if (w < maxW && maxW != 0 ) {
@@ -114,7 +114,7 @@ public:
     }
 
     bool insideShape(int x, int y) {
-        return x >= rect.x && x < rect.x + rect.w && y >= rect.y && y < rect.y + rect.h;
+        return x > rect.x && x < rect.x + rect.w && y > rect.y && y < rect.y + rect.h;
     }
 
     void clickPress(int x, int y) {

@@ -16,5 +16,6 @@ public:
     }
     virtual void draw(SDL_Renderer *) = 0;
     virtual void updateContent(MiscInfo miscInfo, InputManager& inputmanager, SDL_Renderer* renderer) = 0;
+    virtual void process(MiscInfo miscInfo, InputManager& inputmanager) = 0;
 
 };
