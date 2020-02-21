@@ -51,7 +51,7 @@ public:
 
         for (auto& button : buttons) {
             if (button.getText().size() > 0)
-                button.initBtnText(shapeHandler.getTextTexture(renderer, button.getText(), SDL_Color{ 255,255,0,255 }, "arial.ttf", 50));
+                button.initBtnText(shapeHandler.getTextTexture(renderer, button.getText(), SDL_Color{ 200,200,0,255 }, "arial.ttf", 50));
         }
     }
 

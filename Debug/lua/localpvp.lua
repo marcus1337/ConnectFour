@@ -47,9 +47,45 @@ local gameBox = {
 	imageName = "space1.png"
 }
 
+local boardPiece = {
+	x = 0,
+	y = 0,
+	width = 120,
+	height = 120,
+	imageName = "board_cell.png"
+}
+
+local getABoardPiece = function()
+	tmp = copyTable(boardPiece)
+	tmp.x = gameBox.x
+	tmp.width = math.floor(gameBox.width/7)
+	tmp.height = math.floor(gameBox.height/6)
+	tmp.y = info.height - tmp.height
+	return tmp
+end
+
+getRow = function(colIndex)
+	local col = {}	
+	for i = 1, 6 do
+		local tmpPiece = getABoardPiece()
+		tmpPiece.x = tmpPiece.x + tmpPiece.width*colIndex
+		tmpPiece.y = tmpPiece.y - tmpPiece.height*(i-1)
+		col[i] = tmpPiece	
+	end
+	
+	return col
+end
+
+local getBoard = function()
+	local row1 = getRow(1)
+
+	return table.unpack(row1)
+end
+
 getImages = function()
 	adaptAndCenterImage(background, 4,3)
-	return gameBox, background
+	return table.unpack({getBoard()})
+	--return table.unpack(getBoard()), gameBox, background
 end
 
 -------------
