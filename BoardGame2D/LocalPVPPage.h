@@ -53,6 +53,7 @@ public:
     }
 
     void setupContentFromLua(SDL_Renderer* renderer, MiscInfo miscInfo) {
+        CppToLua::initLuaFile(state, iostuff.getLuaFilePath() + FileNames::utilityFile, miscInfo);
         CppToLua::initLuaFile(state, iostuff.getLuaFilePath() + FileNames::localPVPLua, miscInfo);
 
         buttons = CppToLua::getButtonsFromLua(state, shapeHandler, renderer);
