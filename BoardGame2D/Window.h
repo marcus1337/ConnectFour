@@ -1,6 +1,6 @@
 #pragma once
 #include "SDL.h"
-#include "MainMenu.h"
+#include "Page.h"
 #include <iostream>
 
 class Window {

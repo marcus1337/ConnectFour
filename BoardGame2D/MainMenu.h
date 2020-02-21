@@ -17,7 +17,6 @@ public:
         SDL_SetRenderDrawColor(renderer, 0, 80, 0, 255);
         SDL_RenderClear(renderer);
 
-        //text.setTexture(shapeHandler.getTextTexture(renderer, "Hello World 123", SDL_Color{ 0,255,255,255 }, "calibrib.ttf",100));
         for (auto& image : images) {
             image.draw(renderer);
         }

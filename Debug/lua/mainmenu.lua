@@ -1,12 +1,8 @@
-local btnWidth = info.width / 3
-local btnHeight = info.height / 8
-local centerX = info.width / 2
-local centerY = info.height / 2
-local ySpacing = info.height / 5 - 10
-local ySpaceBias = info.height/10;
+require("utils")
+
 
 local btnHotSeatPvP = {
-	value = 1,
+	value = 2,
     width = btnWidth,
     height = btnHeight,
     title = "HUMAN v HUMAN",
@@ -18,7 +14,7 @@ local btnHotSeatPvP = {
 }
 
 local btnHotSeatPvE = {
-	value = 2,
+	value = 1,
     width = btnWidth,
     height = btnHeight,
     title = "HUMAN v CPU",
@@ -75,7 +71,6 @@ local banner = {
 	imageName = "con4banner.png"
 }
 
-require("utils")
 
 getImages = function()
 	adaptAndCenterImage(background, 4,3)

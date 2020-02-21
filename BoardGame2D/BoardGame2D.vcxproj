@@ -173,6 +173,7 @@
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="IOStuff.h" />
+    <ClInclude Include="LocalPVPPage.h" />
     <ClInclude Include="LuaCalls.h" />
     <ClInclude Include="MiscInfo.h" />
     <ClInclude Include="MainMenu.h" />

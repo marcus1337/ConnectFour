@@ -19,6 +19,12 @@
     <Filter Include="Header Files\IO">
       <UniqueIdentifier>{3bd43a3a-27ae-46f2-bfe2-1618d8449640}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\MENU\PAGES">
+      <UniqueIdentifier>{d1a35bc6-399a-4ad4-aed6-d6334dc0a7f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MENU\PAGEITEMS">
+      <UniqueIdentifier>{21477866-8a9a-4aca-b0e1-ff409def5a16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoardGame2D.cpp">
@@ -41,12 +47,6 @@
     <ClInclude Include="Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Page.h">
-      <Filter>Header Files\MENU</Filter>
-    </ClInclude>
-    <ClInclude Include="MainMenu.h">
-      <Filter>Header Files\MENU</Filter>
-    </ClInclude>
     <ClInclude Include="GameHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -62,9 +62,6 @@
     <ClInclude Include="EnumManager.h">
       <Filter>Header Files\IO</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Header Files\MENU</Filter>
-    </ClInclude>
     <ClInclude Include="ShapeFuncs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -74,14 +71,26 @@
     <ClInclude Include="MiscInfo.h">
       <Filter>Header Files\IO</Filter>
     </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Header Files\MENU</Filter>
-    </ClInclude>
     <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\MENU\PAGEITEMS</Filter>
+    </ClInclude>
     <ClInclude Include="Image.h">
-      <Filter>Header Files\MENU</Filter>
+      <Filter>Header Files\MENU\PAGEITEMS</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files\MENU\PAGEITEMS</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Header Files\MENU\PAGES</Filter>
+    </ClInclude>
+    <ClInclude Include="Page.h">
+      <Filter>Header Files\MENU\PAGES</Filter>
+    </ClInclude>
+    <ClInclude Include="LocalPVPPage.h">
+      <Filter>Header Files\MENU\PAGES</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

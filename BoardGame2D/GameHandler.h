@@ -5,6 +5,9 @@
 #include "InputManager.h"
 #include "ShapeHandler.h"
 
+#include "LocalPVPPage.h"
+#include "MainMenu.h"
+
 #include <iostream>
 
 class GameHandler {
@@ -38,10 +41,10 @@ public:
     }
 
     void handlePageChange(PageState _newPageState) {
-        if (_newPageState) {
-            if (_newPageState == PageState::MAINMENU)
-                window.changePage(new MainMenu(shapeHandler, iostuff), getMiscInfo());
-        }
+        if (_newPageState == PageState::MAINMENU)
+            window.changePage(new MainMenu(shapeHandler, iostuff), getMiscInfo());
+        if (_newPageState == PageState::LOCALPVP)
+            window.changePage(new LocalPVPPage(shapeHandler, iostuff), getMiscInfo());
     }
 
     void gameTick() {

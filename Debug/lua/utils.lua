@@ -1,4 +1,10 @@
 
+btnWidth = info.width / 3
+btnHeight = info.height / 8
+centerX = info.width / 2
+centerY = info.height / 2
+ySpacing = info.height / 5 - 10
+ySpaceBias = info.height/10;
 
 
 function getMax(a, b) 
