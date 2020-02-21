@@ -23,6 +23,7 @@ public:
 
     GameHandler() : ticks(0), shapeHandler(IOStuff::getexepath()), pageState(PageState::MAINMENU) {
         shapeHandler.init(window.renderer);
+        SDL_SetWindowIcon(window.window, IMG_Load((shapeHandler.rpath + "space1.png").c_str()));
         window.changePage(new MainMenu(shapeHandler, iostuff), getMiscInfo());
     }
 

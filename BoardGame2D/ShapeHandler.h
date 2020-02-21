@@ -15,10 +15,10 @@ private:
     std::map<fontKey, TTF_Font*> fonts;
     std::map<textKey, SDL_Texture*> textTextures;
     std::map<std::string, SDL_Texture*> imageTextures;
-    std::string rpath;
     std::string fontPath;
 
 public:
+    std::string rpath;
     SDL_Texture* button1_pressed;
     SDL_Texture* button1;
     SDL_Texture* background1;

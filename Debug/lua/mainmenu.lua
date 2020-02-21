@@ -48,19 +48,28 @@ end
 ----------------------
 
 local background = {
-	width = 500,
-	height = 500,
+	width = 5000,
+	height = 5000,
 	x = 0,
 	y = 0,
 	imageName = "space1.png"
+}
 
+local banner = {
+	width = 80,
+	height = 60,
+	x = centerX,
+	y = centerY - ySpacing,
+	imageName = "con4banner.png"
 }
 
 require("utils")
 
 getImages = function()
 	adaptAndCenterImage(background, 4,3)
-	return background
+	adaptAndCenterImage(banner, 4,1)
+	banner.y = banner.y - ySpacing*2.2
+	return banner, background
 end
 
 -------------
