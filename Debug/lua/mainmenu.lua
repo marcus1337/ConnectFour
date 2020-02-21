@@ -52,10 +52,18 @@ local background = {
 	height = 500,
 	x = 0,
 	y = 0,
-	imageName = "button1.png"
+	imageName = "space1.png"
 
 }
 
+require("utils")
+
 getImages = function()
+	adaptAndCenterImage(background, 4,3)
 	return background
 end
+
+-------------
+
+
+
