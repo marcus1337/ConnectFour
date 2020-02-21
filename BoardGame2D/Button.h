@@ -167,10 +167,12 @@ public:
     }
 
     int value = 0;
-
-private:
+    std::string downImageName, upImageName, hoverImageName;
     SDL_Texture* textureDown;
     SDL_Texture* textureUp;
+    SDL_Texture* textureHover;
+
+private:
     SDL_Rect rect;
     bool selected;
     bool pressed;

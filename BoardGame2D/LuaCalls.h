@@ -8,6 +8,8 @@
 #include "ShapeHandler.h"
 #include "Image.h"
 
+#include <iostream>
+
 namespace LuaToCpp {
 
     static int lua_sleep(lua_State *L)
@@ -63,31 +65,34 @@ namespace CppToLua {
         lua_gettable(_L, -6);
         lua_pushstring(_L, "value");
         lua_gettable(_L, -7);
+        lua_pushstring(_L, "downImg");
+        lua_gettable(_L, -8);
+        lua_pushstring(_L, "upImg");
+        lua_gettable(_L, -9);
+        lua_pushstring(_L, "hoverImg");
+        lua_gettable(_L, -10);
     }
 
     static Button makeButtonFromStackData(lua_State* _L) {
         Button button;
-        int tmpWidth  = lua_tonumber(_L, -6);
-        int tmpHeight = lua_tonumber(_L, -5);
-        std::string tmpTitle = lua_tostring(_L, -4);
-        int tmpX = lua_tonumber(_L, -3);
-        int tmpY = lua_tonumber(_L, -2);
-        int btnValue = lua_tonumber(_L, -1);
         auto btnRect = button.getRect();
-        btnRect.w = tmpWidth;
-        btnRect.h = tmpHeight;
-        btnRect.x = tmpX;
-        btnRect.y = tmpY;
+        btnRect.w =     lua_tonumber(_L, -9);
+        btnRect.h =     lua_tonumber(_L, -8);
+        button.setText( lua_tostring(_L, -7));
+        btnRect.x =     lua_tonumber(_L, -6);
+        btnRect.y =     lua_tonumber(_L, -5);
+        button.value =  lua_tonumber(_L, -4);
+        button.downImageName =  lua_tostring(_L, -3);
+        button.upImageName =    lua_tostring(_L, -2);
+        button.hoverImageName = lua_tostring(_L, -1);
         button.setRect(btnRect);
-        button.setText(tmpTitle);
-        button.value = btnValue;
         return button;
     }
 
     static Button getButtonFromTable(lua_State* _L) {
         loadButtonTableToStack(_L);
         Button button = makeButtonFromStackData(_L);
-        lua_pop(_L, 7);
+        lua_pop(_L, 10);
         return button;
     }
 
@@ -138,7 +143,17 @@ namespace CppToLua {
         return true;
     }
 
-    static std::vector<Button> getButtonsFromLua(lua_State* _L, ShapeHandler& shapeHandler) {
+    static void setButtonImageTextures(Button& button, ShapeHandler& shapeHandler, SDL_Renderer* renderer) {
+        button.setImage(shapeHandler.button1, shapeHandler.button1_pressed);
+        if (button.downImageName != "")
+            button.textureDown = shapeHandler.getImageTexture(renderer, button.downImageName);
+        if (button.upImageName != "")
+            button.textureDown = shapeHandler.getImageTexture(renderer, button.upImageName);
+        if (button.hoverImageName != "")
+            button.textureDown = shapeHandler.getImageTexture(renderer, button.hoverImageName);
+    }
+
+    static std::vector<Button> getButtonsFromLua(lua_State* _L, ShapeHandler& shapeHandler, SDL_Renderer* renderer) {
         std::vector<Button> tmpButtons;
         if (!loadedLuaFunction(_L, "getButtons"))
             return tmpButtons;
@@ -153,7 +168,7 @@ namespace CppToLua {
 
         for (int i = 0; i < numberOfTables; i++) {
             Button button = getButtonFromTable(_L);
-            button.setImage(shapeHandler.button1, shapeHandler.button1_pressed);
+            setButtonImageTextures(button, shapeHandler, renderer);
             tmpButtons.push_back(button);
         }
 

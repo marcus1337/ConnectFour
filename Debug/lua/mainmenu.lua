@@ -11,7 +11,10 @@ local btnHotSeatPvP = {
     height = btnHeight,
     title = "HUMAN v HUMAN",
 	x = centerX - btnWidth/2,
-	y = centerY - ySpacing*2 + ySpaceBias
+	y = centerY - ySpacing*2 + ySpaceBias,
+	downImg = "",
+	upImg = "",
+	hoverImg = ""
 }
 
 local btnHotSeatPvE = {
@@ -20,7 +23,10 @@ local btnHotSeatPvE = {
     height = btnHeight,
     title = "HUMAN v CPU",
 	x = centerX - btnWidth/2,
-	y = centerY - ySpacing + ySpaceBias
+	y = centerY - ySpacing + ySpaceBias,
+	downImg = "",
+	upImg = "",
+	hoverImg = ""
 }
 
 local btnLANCreate = {
@@ -29,7 +35,10 @@ local btnLANCreate = {
     height = btnHeight,
     title = "Host LAN",
 	x = centerX - btnWidth/2,
-	y = centerY + ySpaceBias
+	y = centerY + ySpaceBias,
+	downImg = "",
+	upImg = "",
+	hoverImg = ""
 }
 
 local btnLANJoin = {
@@ -38,7 +47,10 @@ local btnLANJoin = {
     height = btnHeight,
     title = "Join LAN",
 	x = centerX - btnWidth/2,
-	y = centerY + ySpacing + ySpaceBias
+	y = centerY + ySpacing + ySpaceBias,
+	downImg = "",
+	upImg = "",
+	hoverImg = ""
 }
 
 getButtons = function()
