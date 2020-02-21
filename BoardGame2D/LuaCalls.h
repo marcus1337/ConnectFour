@@ -147,10 +147,11 @@ namespace CppToLua {
         button.setImage(shapeHandler.button1, shapeHandler.button1_pressed);
         if (button.downImageName != "")
             button.textureDown = shapeHandler.getImageTexture(renderer, button.downImageName);
-        if (button.upImageName != "")
-            button.textureDown = shapeHandler.getImageTexture(renderer, button.upImageName);
+        if (button.upImageName != "") {
+            button.textureUp = shapeHandler.getImageTexture(renderer, button.upImageName);
+        }
         if (button.hoverImageName != "")
-            button.textureDown = shapeHandler.getImageTexture(renderer, button.hoverImageName);
+            button.textureHover = shapeHandler.getImageTexture(renderer, button.hoverImageName);
     }
 
     static std::vector<Button> getButtonsFromLua(lua_State* _L, ShapeHandler& shapeHandler, SDL_Renderer* renderer) {

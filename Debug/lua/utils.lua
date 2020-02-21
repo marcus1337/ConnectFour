@@ -21,6 +21,12 @@ function adaptToRatio(ratioW, ratioH, w, h)
 	return math.floor(w), math.floor(h)
 end
 
+function adaptImageToRatio(image, ratioW, ratioH)
+	w, h = adaptToRatio(ratioW, ratioH, image.width, image.height)
+	image.width = w
+	image.height = h
+end
+
 function centerImage(winW, winH, imgW, imgH)
 	x = winW / 2 - imgW / 2
 	y = winH / 2 - imgH / 2

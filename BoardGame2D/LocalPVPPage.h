@@ -54,6 +54,7 @@ public:
 
     void setupContentFromLua(SDL_Renderer* renderer, MiscInfo miscInfo) {
         CppToLua::initLuaFile(state, iostuff.getLuaFilePath() + FileNames::localPVPLua, miscInfo);
+
         buttons = CppToLua::getButtonsFromLua(state, shapeHandler, renderer);
         images = CppToLua::getImagesFromLua(state, shapeHandler, renderer);
 
@@ -64,9 +65,10 @@ public:
     }
 
     virtual void updateContent(MiscInfo miscInfo, InputManager& inputmanager, SDL_Renderer* renderer) {
-        setupContentFromLua(renderer, miscInfo);
-        /* if (iostuff.isFileModified(FileNames::localPVPLua) || inputmanager.resizedWindow)
-        {}*/
+        if (iostuff.isFileModified(FileNames::localPVPLua) || inputmanager.resizedWindow)
+        {
+            setupContentFromLua(renderer, miscInfo);
+        }
     }
 
     virtual void onStart(SDL_Renderer* renderer, MiscInfo miscInfo) {
