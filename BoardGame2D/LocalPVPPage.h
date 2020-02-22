@@ -1,21 +1,30 @@
 #pragma once
 #include "Page.h"
 #include "Button.h"
-#include "Text.h"
+#include "UIText.h"
 #include <vector>
 #include "Image.h"
 #include "IOStuff.h"
 #include "EnumManager.h"
 
-class LocalPVPPage : public Page {
+
+//#include "GameControl.h"
+#include <vcclr.h>
+#using <ConnectFour.dll>
+
+public class LocalPVPPage : public Page {
 public:
+
     std::vector<Button> gameButtons;
     std::vector<Button> buttons;
     std::vector<Image> images;
-    Text text;
+    UIText text;
+
+    gcroot<ConnectFour::Controller^> game;
 
     LocalPVPPage(ShapeHandler& _shapeHandler, IOStuff& _iostuff) : Page(_shapeHandler, _iostuff) {
         state = iostuff.loadLuaFile(FileNames::localPVPLua);
+        game = gcnew ConnectFour::Controller();
     };
 
     virtual void draw(SDL_Renderer* renderer) {
@@ -94,7 +103,7 @@ public:
     }
 
     void handleGameButtonClicks(InputManager& inputs) {
-
+        
         int selectedCol = getSelectedColumn(inputs);
 
         for (auto& button : gameButtons) {

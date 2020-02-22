@@ -16,6 +16,8 @@ c:\users\marcus\documents\github\connectfour\boardgame2d\luacalls.h(117): warnin
 c1xx : warning C4199: two-phase name lookup is not supported for C++/CLI, C++/CX, or OpenMP; use /Zc:twoPhase-
 c:\users\marcus\documents\github\connectfour\boardgame2d\shapefuncs.h(56): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
 c:\users\marcus\documents\github\connectfour\boardgame2d\button.h(61): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+  EnumManager.cpp
+c1xx : warning C4199: two-phase name lookup is not supported for C++/CLI, C++/CX, or OpenMP; use /Zc:twoPhase-
   IOStuff.cpp
 c1xx : warning C4199: two-phase name lookup is not supported for C++/CLI, C++/CX, or OpenMP; use /Zc:twoPhase-
 c:\users\marcus\documents\github\connectfour\boardgame2d\shapefuncs.h(56): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
@@ -30,7 +32,12 @@ c:\users\marcus\documents\github\connectfour\boardgame2d\luacalls.h(114): warnin
 c:\users\marcus\documents\github\connectfour\boardgame2d\luacalls.h(115): warning C4244: 'initializing': conversion from 'lua_Number' to 'int', possible loss of data
 c:\users\marcus\documents\github\connectfour\boardgame2d\luacalls.h(116): warning C4244: 'initializing': conversion from 'lua_Number' to 'int', possible loss of data
 c:\users\marcus\documents\github\connectfour\boardgame2d\luacalls.h(117): warning C4244: 'initializing': conversion from 'lua_Number' to 'int', possible loss of data
+  ShapeHandler.cpp
+c1xx : warning C4199: two-phase name lookup is not supported for C++/CLI, C++/CX, or OpenMP; use /Zc:twoPhase-
+c:\users\marcus\documents\github\connectfour\boardgame2d\shapefuncs.h(56): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
   Generating Code...
+  .NETFramework,Version=v4.0.AssemblyAttributes.cpp
+c1xx : warning C4199: two-phase name lookup is not supported for C++/CLI, C++/CX, or OpenMP; use /Zc:twoPhase-
   BoardGame2D.obj : /DEBUG:FASTLINK is not supported when managed code is present; restarting link with /DEBUG:FULL
   BoardGame2D.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
 ShapeHandler.obj : warning LNK4248: unresolved typeref token (01000017) for 'SDL_Texture'; image may not run
@@ -40,6 +47,6 @@ BoardGame2D.obj : warning LNK4248: unresolved typeref token (01000018) for 'SDL_
 IOStuff.obj : warning LNK4248: unresolved typeref token (01000019) for 'lua_State'; image may not run
 BoardGame2D.obj : warning LNK4248: unresolved typeref token (01000019) for 'lua_State'; image may not run
 ShapeHandler.obj : warning LNK4248: unresolved typeref token (01000022) for 'SDL_Window'; image may not run
-BoardGame2D.obj : warning LNK4248: unresolved typeref token (0100001B) for 'SDL_Window'; image may not run
+BoardGame2D.obj : warning LNK4248: unresolved typeref token (0100001F) for 'SDL_Window'; image may not run
 ShapeHandler.obj : warning LNK4248: unresolved typeref token (01000019) for '_TTF_Font'; image may not run
   BoardGame2D.vcxproj -> C:\Users\Marcus\Documents\Github\ConnectFour\Debug\BoardGame2D.exe

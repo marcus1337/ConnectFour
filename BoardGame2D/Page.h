@@ -10,7 +10,7 @@ enum PageState {
     NONE = 0, MAINMENU = 1, LOCALPVP = 2, LOCALPVE = 3
 };
 
-class Page {
+public class Page {
 protected:
     lua_State* state = nullptr;
     IOStuff& iostuff;

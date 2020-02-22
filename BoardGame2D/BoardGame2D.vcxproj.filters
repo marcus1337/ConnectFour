@@ -80,9 +80,6 @@
     <ClInclude Include="Image.h">
       <Filter>Header Files\MENU\PAGEITEMS</Filter>
     </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Header Files\MENU\PAGEITEMS</Filter>
-    </ClInclude>
     <ClInclude Include="MainMenu.h">
       <Filter>Header Files\MENU\PAGES</Filter>
     </ClInclude>
@@ -91,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="LocalPVPPage.h">
       <Filter>Header Files\MENU\PAGES</Filter>
+    </ClInclude>
+    <ClInclude Include="GameControl.h">
+      <Filter>Header Files\MENU\PAGES</Filter>
+    </ClInclude>
+    <ClInclude Include="UIText.h">
+      <Filter>Header Files\MENU\PAGEITEMS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

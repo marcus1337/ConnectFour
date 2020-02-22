@@ -1,14 +1,14 @@
 #pragma once
 #include "SDL.h"
 #include <string>
-#include "Text.h"
+#include "UIText.h"
 #include <iostream>
 
 class Button {
 public:
 
     Button();
-    Text btnText;
+    UIText btnText;
 
     void setHover(bool _hoverOn) {
         hoverOn = _hoverOn;

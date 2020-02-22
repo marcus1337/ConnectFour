@@ -1,13 +1,13 @@
 #pragma once
 #include "Page.h"
 #include "Button.h"
-#include "Text.h"
+#include "UIText.h"
 
 class MainMenu : public Page {
 public:
     std::vector<Button> buttons;
     std::vector<Image> images;
-    Text text;
+    UIText text;
 
     MainMenu(ShapeHandler& _shapeHandler, IOStuff& _iostuff) : Page(_shapeHandler, _iostuff) {
         state = iostuff.loadLuaFile(FileNames::mainMenuLua);
