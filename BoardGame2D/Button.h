@@ -40,12 +40,12 @@ public:
             tmpPress = !pressed;
 
         if (selected && hoverOn) {
-            SDL_Rect hovRect = getHoverRect();
+            /*SDL_Rect hovRect = getHoverRect();
             SDL_SetRenderDrawColor(renderer, 200, 100, 40, 255);
-            SDL_RenderFillRect(renderer, &hovRect);
-        }
+            SDL_RenderFillRect(renderer, &hovRect);*/
+            SDL_RenderCopy(renderer, textureHover, NULL, &rect);
 
-        if (!tmpPress)
+        } else if (!tmpPress)
             SDL_RenderCopy(renderer, textureUp, NULL, &rect);
         else
             SDL_RenderCopy(renderer, textureDown, NULL, &rect);
@@ -138,6 +138,9 @@ public:
         else {
             selected = false;
         }
+    }
+    void setSelected(bool _selected) {
+        selected = _selected;
     }
 
     void setPressed(bool _press) {

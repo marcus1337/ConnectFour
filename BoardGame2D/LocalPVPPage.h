@@ -53,7 +53,7 @@ public:
 
     virtual PageState process(MiscInfo miscInfo, InputManager& inputs) {
         PageState pageChange = handleButtonClicks(inputs);
-
+        handleGameButtonClicks(inputs);
         return pageChange;
     }
 
@@ -81,5 +81,38 @@ public:
     virtual void onStart(SDL_Renderer* renderer, MiscInfo miscInfo) {
         setupContentFromLua(renderer, miscInfo);
     }
+
+
+    int getSelectedColumn(InputManager& inputs) {
+        int mx = inputs.mousePosition.first;
+        int my = inputs.mousePosition.second;
+        for (auto& button : gameButtons) {
+            if (button.insideShape(mx, my))
+                return button.value;
+        }
+        return -1;
+    }
+
+    void handleGameButtonClicks(InputManager& inputs) {
+
+        int selectedCol = getSelectedColumn(inputs);
+
+        for (auto& button : gameButtons) {
+            if (inputs.wasMouseLeftDown) {
+                button.clickPress(inputs.mouseDown.first, inputs.mouseDown.second);
+            }
+            if (inputs.wasMouseLeftUp) {
+                button.clickRelease(inputs.mouseUp.first, inputs.mouseUp.second);
+            }
+            if (button.isClicked()) {
+
+            }
+            button.setHover(true);
+            button.setSelected(false);
+            if (selectedCol == button.value)
+                button.setSelected(true);
+        }
+    }
+
 
 };

@@ -69,6 +69,7 @@ getRow = function(colIndex)
 		local tmpPiece = getABoardPiece()
 		tmpPiece.x = tmpPiece.x + tmpPiece.width*colIndex
 		tmpPiece.y = tmpPiece.y - tmpPiece.height*(i-1)
+		tmpPiece.value = colIndex
 		col[i] = tmpPiece	
 	end
 	
