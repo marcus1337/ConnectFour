@@ -9,6 +9,7 @@
 
 class LocalPVPPage : public Page {
 public:
+    std::vector<Button> gameButtons;
     std::vector<Button> buttons;
     std::vector<Image> images;
     Text text;
@@ -26,6 +27,10 @@ public:
         }
 
         for (auto& button : buttons) {
+            button.render(renderer);
+        }
+
+        for (auto& button : gameButtons) {
             button.render(renderer);
         }
     }
@@ -57,6 +62,7 @@ public:
         CppToLua::initLuaFile(state, iostuff.getLuaFilePath() + FileNames::localPVPLua, miscInfo);
 
         buttons = CppToLua::getButtonsFromLua(state, shapeHandler, renderer);
+        gameButtons = CppToLua::getButtonsFromLua(state, shapeHandler, renderer, "getGameButtons");
         images = CppToLua::getImagesFromLua(state, shapeHandler, renderer);
 
         for (auto& button : buttons) {

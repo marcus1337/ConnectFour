@@ -89,22 +89,21 @@ getImages = function()
 	return table.unpack(imageTable)
 end
 
-getButtons = function()
-	adaptImageToRatio(backButton, 2,1)
-	backButton.x = leftPaneWidth/2 - backButton.width/2
-	
-	--local buttonTable = {getBoard()}
+getGameButtons = function()
 	local buttonTable = {}
-	
 	for i = 0, 6 do
 		for k, v in pairs(getRow(i)) do
 			table.insert(buttonTable, v)
 		end
 	end
-	
-	table.insert(buttonTable, backButton)
-	
 	return table.unpack(buttonTable)
+end
+
+getButtons = function()
+	adaptImageToRatio(backButton, 2,1)
+	backButton.x = leftPaneWidth/2 - backButton.width/2
+	
+	return backButton
 end
 
 -------------

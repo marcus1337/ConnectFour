@@ -154,9 +154,10 @@ namespace CppToLua {
             button.textureHover = shapeHandler.getImageTexture(renderer, button.hoverImageName);
     }
 
-    static std::vector<Button> getButtonsFromLua(lua_State* _L, ShapeHandler& shapeHandler, SDL_Renderer* renderer) {
+    static std::vector<Button> getButtonsFromLua(lua_State* _L, ShapeHandler& shapeHandler, SDL_Renderer* renderer,
+    std::string luaFunctionName = "getButtons") {
         std::vector<Button> tmpButtons;
-        if (!loadedLuaFunction(_L, "getButtons"))
+        if (!loadedLuaFunction(_L, luaFunctionName))
             return tmpButtons;
 
         lua_pcall(_L, 0, LUA_MULTRET, 0);
