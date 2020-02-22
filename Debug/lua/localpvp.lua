@@ -15,12 +15,6 @@ local backButton = {
 	hoverImg = ""
 }
 
-getButtons = function()
-	adaptImageToRatio(backButton, 2,1)
-	backButton.x = leftPaneWidth/2 - backButton.width/2
-	return backButton
-end
-
 ----------------------
 
 local background = {
@@ -61,6 +55,11 @@ local getABoardPiece = function()
 	tmp.width = math.floor(gameBox.width/7)
 	tmp.height = math.floor(gameBox.height/6)
 	tmp.y = info.height - tmp.height
+	tmp.downImg = ""
+	tmp.upImg = "board_cell.png"
+	tmp.hoverImg = "board_cell_hover.png"
+	tmp.title = ""
+	tmp.value = 0
 	return tmp
 end
 
@@ -77,15 +76,35 @@ getRow = function(colIndex)
 end
 
 local getBoard = function()
-	local row1 = getRow(1)
+	local row1 = getRow(0)
 
 	return table.unpack(row1)
 end
 
 getImages = function()
 	adaptAndCenterImage(background, 4,3)
-	return table.unpack({getBoard()})
-	--return table.unpack(getBoard()), gameBox, background
+	local imageTable = {}
+	table.insert(imageTable, gameBox)
+	table.insert(imageTable, background)
+	return table.unpack(imageTable)
+end
+
+getButtons = function()
+	adaptImageToRatio(backButton, 2,1)
+	backButton.x = leftPaneWidth/2 - backButton.width/2
+	
+	--local buttonTable = {getBoard()}
+	local buttonTable = {}
+	
+	for i = 0, 6 do
+		for k, v in pairs(getRow(i)) do
+			table.insert(buttonTable, v)
+		end
+	end
+	
+	table.insert(buttonTable, backButton)
+	
+	return table.unpack(buttonTable)
 end
 
 -------------
