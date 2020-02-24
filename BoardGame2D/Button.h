@@ -125,10 +125,10 @@ public:
     }
 
     void clickRelease(int x, int y) {
-        pressed = false;
-        if (insideShape(x, y)) {
+        if (pressed && insideShape(x, y)) {
             wasClicked = true;
         }
+        pressed = false;
     }
 
     void hover(int x, int y) {

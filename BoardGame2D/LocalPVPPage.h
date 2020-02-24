@@ -114,7 +114,7 @@ public:
                 button.clickRelease(inputs.mouseUp.first, inputs.mouseUp.second);
             }
             if (button.isClicked()) {
-
+                std::cout << "TEST " << button.value << "\n";
             }
             button.setHover(true);
             button.setSelected(false);
