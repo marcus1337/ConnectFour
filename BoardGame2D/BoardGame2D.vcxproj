@@ -163,6 +163,7 @@
     <ClCompile Include="BoardGame2D.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="EnumManager.cpp" />
+    <ClCompile Include="GameControl.cpp" />
     <ClCompile Include="IOStuff.cpp" />
     <ClCompile Include="ShapeHandler.cpp" />
   </ItemGroup>
