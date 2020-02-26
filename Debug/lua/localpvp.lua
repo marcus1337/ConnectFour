@@ -15,6 +15,18 @@ local backButton = {
 	hoverImg = ""
 }
 
+local rematchButton = {
+	value = 4,
+    width = leftPaneWidth/backDiv,
+    height = btnHeight,
+    title = "",
+	x = leftPaneWidth/2 - leftPaneWidth/(backDiv*2),
+	y = (info.height / 30)+backButton.height,
+	downImg = "icons//replay.png",
+	upImg = "icons//replay.png",
+	hoverImg = ""
+}
+
 ----------------------
 
 local background = {
@@ -102,9 +114,10 @@ end
 
 getButtons = function()
 	adaptImageToRatio(backButton, 2,1)
+	adaptImageToRatio(rematchButton, 2,1)
 	backButton.x = leftPaneWidth/2 - backButton.width/2
-	
-	return backButton
+	rematchButton.x = backButton.x
+	return backButton, rematchButton
 end
 
 -------------

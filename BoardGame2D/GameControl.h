@@ -16,7 +16,7 @@ public:
     gcroot<ConnectFour::Controller^> game;
     MiscInfo miscInfo;
     uint64_t tickLastPlacement;
-    uint64_t maxPlaceAnimationTicks = 70;
+    const uint64_t maxPlaceAnimationTicks = 70;
 
     GameControl();
 
@@ -33,6 +33,8 @@ public:
     void setGameControllerDimensions(std::vector<Button>& tmpButtons);
 
     bool isLatestBrick(int i, int j);
+
+    void newGame();
 
 private:
     int btnWidth;

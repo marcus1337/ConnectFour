@@ -7,7 +7,7 @@
 
 
 enum PageState {
-    NONE = 0, MAINMENU = 1, LOCALPVP = 2, LOCALPVE = 3
+    NONE = 0, MAINMENU = 1, LOCALPVP = 2, LOCALPVE = 3, REMATCH = 4
 };
 
 public class Page {

@@ -13,6 +13,10 @@ using namespace std;
 
 
 GameControl::GameControl() {
+    newGame();
+}
+
+void GameControl::newGame() {
     game = gcnew ConnectFour::Controller();
     tickLastPlacement = 0;
     passedTurns = 0;

@@ -62,6 +62,9 @@ public:
                 pageChange = (PageState)button.value;
             }
         }
+        if (pageChange == PageState::REMATCH)
+            gameController.newGame();
+
         return pageChange;
     }
 
