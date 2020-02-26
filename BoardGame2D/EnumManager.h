@@ -6,6 +6,6 @@
 
 
 namespace FileNames {
-    extern const std::string mainMenuLua, localPVPLua, utilityFile;
+    extern const std::string mainMenuLua, localPVPLua, utilityFile, connectingLua;
 
 }

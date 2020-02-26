@@ -14,6 +14,7 @@ using namespace std;
 
 GameControl::GameControl() {
     newGame();
+   //gcroot<Lobby^> lobby = gcnew Lobby();
 }
 
 void GameControl::newGame() {

@@ -5,8 +5,10 @@
 #include "InputManager.h"
 #include "ShapeHandler.h"
 
+#include "ServerPage.h"
 #include "LocalPVPPage.h"
 #include "LocalPVEPage.h"
+#include "ConnectServerPage.h"
 #include "MainMenu.h"
 
 #include <iostream>
@@ -48,6 +50,13 @@ public:
             window.changePage(new LocalPVPPage(shapeHandler, iostuff), getMiscInfo());
         if (_newPageState == PageState::LOCALPVE)
             window.changePage(new LocalPVEPage(shapeHandler, iostuff), getMiscInfo());
+        if (_newPageState == PageState::LANSERVERCONNECT)
+            window.changePage(new ConnectServerPage(shapeHandler, iostuff), getMiscInfo());
+        if (_newPageState == PageState::LANSERVER) {
+            ServerPage* serverpage = new ServerPage(shapeHandler, iostuff,(ConnectServerPage*) window.page);
+            window.changePage(serverpage, getMiscInfo());
+        }
+
     }
 
     void gameTick() {

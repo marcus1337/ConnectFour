@@ -26,7 +26,7 @@ local btnHotSeatPvE = {
 }
 
 local btnLANCreate = {
-	value = 3,
+	value = 5,
     width = btnWidth,
     height = btnHeight,
     title = "Host LAN",
@@ -38,7 +38,7 @@ local btnLANCreate = {
 }
 
 local btnLANJoin = {
-	value = 4,
+	value = 6,
     width = btnWidth,
     height = btnHeight,
     title = "Join LAN",

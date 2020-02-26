@@ -7,7 +7,8 @@
 
 
 enum PageState {
-    NONE = 0, MAINMENU = 1, LOCALPVP = 2, LOCALPVE = 3, REMATCH = 4
+    NONE = 0, MAINMENU = 1, LOCALPVP = 2, LOCALPVE = 3, REMATCH = 4, 
+    LANSERVERCONNECT = 5, LANCLIENTCONNECT = 6, LANSERVER = 7, LANCLIENT = 8
 };
 
 public class Page {

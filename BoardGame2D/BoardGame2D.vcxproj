@@ -169,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ConnectServerPage.h" />
     <ClInclude Include="EnumManager.h" />
     <ClInclude Include="GameControl.h" />
     <ClInclude Include="GameHandler.h" />
@@ -181,6 +182,7 @@
     <ClInclude Include="MiscInfo.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Page.h" />
+    <ClInclude Include="ServerPage.h" />
     <ClInclude Include="ShapeFuncs.h" />
     <ClInclude Include="ShapeHandler.h" />
     <ClInclude Include="UIText.h" />

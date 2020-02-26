@@ -101,5 +101,11 @@
     <ClInclude Include="LocalPVEPage.h">
       <Filter>Header Files\MENU\PAGES</Filter>
     </ClInclude>
+    <ClInclude Include="ConnectServerPage.h">
+      <Filter>Header Files\MENU\PAGES</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerPage.h">
+      <Filter>Header Files\MENU\PAGES</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

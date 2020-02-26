@@ -12,7 +12,6 @@
 
 public class GameControl {
 public:
-
     gcroot<ConnectFour::Controller^> game;
     MiscInfo miscInfo;
     uint64_t tickLastPlacement;
