@@ -19,6 +19,7 @@ public class Server
     public WebGame webGame;
     public int keyInput = -1;
     private Stopwatch timer;
+    public bool startedGame;
 
     public Server()
     {
@@ -70,9 +71,9 @@ public class Server
         {
             while (IPUtils.webLoopFlag)
             {
-                int keyPress = Console.ReadKey().KeyChar - '0';
-                webGame.tryPlace(webGame.player1, keyPress);
-                Console.WriteLine("PRESS: " + keyPress);
+                if(keyInput != -1)
+                    webGame.tryPlace(webGame.player1, keyInput);
+                keyInput = -1;
             }
         });
     }
@@ -85,6 +86,7 @@ public class Server
 
     public void startGame()
     {
+        startedGame = true;
         var listenerTask = listenForGameMessagesAsync();
         var humanInputsTask = handleHumanInputs();
         timer.Start();

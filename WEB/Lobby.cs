@@ -63,27 +63,41 @@ public class Lobby
         }
     }
 
+    public Server server;
+    public Client client;
+
+    public async Task hostLANAsync()
+    {
+        await Task.Run(() => hostLAN());
+    }
+
+    public async Task joinLANAsync()
+    {
+        await Task.Run(() => joinLAN());
+    }
+
     public void hostLAN()
     {
-        Server server = new Server();
+        server = new Server();
         var serverWaitForPlayersTask = fillServerLobby(server);
 
         while (!serverWaitForPlayersTask.IsCompleted)
         {
-            Thread.Sleep(200);
+           // Console.WriteLine("connecting serv...");
+            Thread.Sleep(300);
         }
         server.startGame();
     }
 
     public void joinLAN()
     {
-        Client client = new Client();
+        client = new Client();
         var connectionTask = connectToServer(client);
 
         while (!connectionTask.IsCompleted)
         {
-            //Console.WriteLine("connecting...");
-            Thread.Sleep(200);
+        //    Console.WriteLine("connecting client...");
+            Thread.Sleep(300);
         }
 
         client.startGame();

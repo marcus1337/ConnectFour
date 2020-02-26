@@ -26,7 +26,7 @@ public class WebGame
     public void tryPlace(Player player, int rowNumber)
     {
         wasUpdated = controller.tryPlace(player.playerColor, rowNumber);
-        Console.Write("LOL? " + wasUpdated);
+        Console.Write("Was updated? " + wasUpdated);
         controller.printBoard();
         if (wasUpdated)
             controller.nextTurn();

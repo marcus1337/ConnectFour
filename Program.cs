@@ -38,6 +38,10 @@ namespace ConnectFour
         /*static void Main(string[] args)
         {
             new Program().run();
+            while (true)
+            {
+                Thread.Sleep(800);
+            }
         }*/
     }
 }
