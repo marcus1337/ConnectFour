@@ -6,6 +6,7 @@
 #include "Image.h"
 #include "IOStuff.h"
 #include "EnumManager.h"
+#include <algorithm>
 
 
 //#include "GameControl.h"
@@ -41,6 +42,11 @@ public:
 
         for (auto& button : gameButtons) {
             button.render(renderer);
+        }
+
+        auto bricks = getPlacedBricksImages(renderer);
+        for (auto& b : bricks) {
+            b.draw(renderer);
         }
     }
 
@@ -102,6 +108,42 @@ public:
         return -1;
     }
 
+    std::vector<Image> getPlacedBricksImages(SDL_Renderer* renderer) {
+        std::vector<Image> placedBricks;
+        auto gameBrickSortFunction = [](const Button& a, const Button& b)
+        {
+            return (a.getX() == b.getX() ? a.getY() > b.getY() : a.getX() < b.getX());
+        };
+        std::sort(gameButtons.begin(), gameButtons.end(), gameBrickSortFunction);
+        int btnWidth = gameButtons[0].getW();
+        int btnHeight = gameButtons[0].getH();
+        int minX = gameButtons[0].getX();
+        int minY = gameButtons[0].getY();
+
+        auto boardColors = game->getModel()->getBoardColors();
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 6; j++) {
+                if (boardColors[i, j] == ConnectFour::Model::COLOR::RED) {
+                    Image img;
+                    img.texture = shapeHandler.getImageTexture(renderer, "red_chip.png");
+                    img.setWH(btnWidth, btnHeight);
+                    img.setXY(i*btnWidth + minX, minY - j * btnHeight);
+                    placedBricks.push_back(img);
+                    
+                }
+                if (boardColors[i, j] == ConnectFour::Model::COLOR::BLUE) {
+                    Image img;
+                    img.texture = shapeHandler.getImageTexture(renderer, "yellow_chip.png");
+                    img.setWH(btnWidth, btnHeight);
+                    img.setXY(i*btnWidth + minX, minY - j * btnHeight);
+                    placedBricks.push_back(img);
+                }
+            }
+        }
+
+        return placedBricks;
+    }
+
     void handleGameButtonClicks(InputManager& inputs) {
         
         int selectedCol = getSelectedColumn(inputs);
@@ -114,7 +156,9 @@ public:
                 button.clickRelease(inputs.mouseUp.first, inputs.mouseUp.second);
             }
             if (button.isClicked()) {
-                std::cout << "TEST " << button.value << "\n";
+                bool moveOK = game->tryPlace(game->getModel()->currentPlayer, button.value);
+                if (!game->getModel()->isGameOver())
+                    game->getModel()->nextTurn();
             }
             button.setHover(true);
             button.setSelected(false);

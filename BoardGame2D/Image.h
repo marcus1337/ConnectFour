@@ -30,4 +30,9 @@ public:
         rect.y = y;
     }
 
+    void setWH(int w, int h) {
+        rect.w = w;
+        rect.h = h;
+    }
+
 };

@@ -169,6 +169,22 @@ public:
         return title;
     }
 
+    int getX() const {
+        return rect.x;
+    }
+
+    int getY() const {
+        return rect.y;
+    }
+
+    int getW() const {
+        return rect.w;
+    }
+
+    int getH() const {
+        return rect.h;
+    }
+
     int value = 0;
     std::string downImageName, upImageName, hoverImageName;
     SDL_Texture* textureDown;
