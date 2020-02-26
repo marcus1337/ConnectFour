@@ -13,3 +13,5 @@ Struct GameControl: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Seal
   :System.ValueType
 Struct LocalPVPPage: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
   :System.ValueType
+Struct LocalPVEPage: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType

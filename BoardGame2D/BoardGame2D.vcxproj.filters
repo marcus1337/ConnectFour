@@ -98,5 +98,8 @@
     <ClInclude Include="UIText.h">
       <Filter>Header Files\MENU\PAGEITEMS</Filter>
     </ClInclude>
+    <ClInclude Include="LocalPVEPage.h">
+      <Filter>Header Files\MENU\PAGES</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

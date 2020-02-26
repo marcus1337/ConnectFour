@@ -14,7 +14,7 @@ local btnHotSeatPvP = {
 }
 
 local btnHotSeatPvE = {
-	value = 1,
+	value = 3,
     width = btnWidth,
     height = btnHeight,
     title = "HUMAN v CPU",

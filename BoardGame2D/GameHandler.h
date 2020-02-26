@@ -6,6 +6,7 @@
 #include "ShapeHandler.h"
 
 #include "LocalPVPPage.h"
+#include "LocalPVEPage.h"
 #include "MainMenu.h"
 
 #include <iostream>
@@ -45,6 +46,8 @@ public:
             window.changePage(new MainMenu(shapeHandler, iostuff), getMiscInfo());
         if (_newPageState == PageState::LOCALPVP)
             window.changePage(new LocalPVPPage(shapeHandler, iostuff), getMiscInfo());
+        if (_newPageState == PageState::LOCALPVE)
+            window.changePage(new LocalPVEPage(shapeHandler, iostuff), getMiscInfo());
     }
 
     void gameTick() {

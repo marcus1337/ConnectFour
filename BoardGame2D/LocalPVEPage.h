@@ -10,7 +10,7 @@
 
 #include "GameControl.h"
 
-public class LocalPVPPage : public Page {
+public class LocalPVEPage : public Page {
 public:
 
     std::vector<Button> gameButtons;
@@ -20,7 +20,7 @@ public:
 
     GameControl gameController;
 
-    LocalPVPPage(ShapeHandler& _shapeHandler, IOStuff& _iostuff) : Page(_shapeHandler, _iostuff) {
+    LocalPVEPage(ShapeHandler& _shapeHandler, IOStuff& _iostuff) : Page(_shapeHandler, _iostuff) {
         state = iostuff.loadLuaFile(FileNames::localPVPLua);
     };
 
@@ -96,6 +96,12 @@ public:
             setupContentFromLua(renderer, miscInfo);
         }
         gameController.miscInfo = miscInfo;
+        if (!gameController.game->isHumanTurn()) {
+            int aimove = gameController.game->getAIMove();
+            if(gameController.doneAnimatingBrickDrop())
+                gameController.tryPlace(aimove);
+        }
+
     }
 
     virtual void onStart(SDL_Renderer* renderer, MiscInfo miscInfo) {
@@ -114,7 +120,7 @@ public:
     }
 
     void handleGameButtonClicks(InputManager& inputs) {
-        
+
         int selectedCol = getSelectedColumn(inputs);
 
         for (auto& button : gameButtons) {
@@ -125,7 +131,7 @@ public:
                 button.clickRelease(inputs.mouseUp.first, inputs.mouseUp.second);
             }
             if (button.isClicked()) {
-                if(gameController.doneAnimatingBrickDrop())
+                if (gameController.doneAnimatingBrickDrop() && gameController.game->isHumanTurn())
                     gameController.tryPlace(button.value);
             }
             button.setHover(true);
