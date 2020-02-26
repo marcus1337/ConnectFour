@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-[SerializableAttribute]
-public class PlayerAction
+namespace ConnectFour
 {
-    public Player player;
-    public int rowNumber;
-
-    public PlayerAction(Player player, int rowNumber)
+    [SerializableAttribute]
+    public class PlayerAction
     {
-        this.player = player;
-        this.rowNumber = rowNumber;
-    }
+        public Player player;
+        public int rowNumber;
 
+        public PlayerAction(Player player, int rowNumber)
+        {
+            this.player = player;
+            this.rowNumber = rowNumber;
+        }
+
+    }
 }

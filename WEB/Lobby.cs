@@ -70,8 +70,7 @@ public class Lobby
 
         while (!serverWaitForPlayersTask.IsCompleted)
         {
-            Console.WriteLine("waiting...");
-            Thread.Sleep(2000);
+            Thread.Sleep(200);
         }
         server.startGame();
     }
@@ -83,8 +82,8 @@ public class Lobby
 
         while (!connectionTask.IsCompleted)
         {
-            Console.WriteLine("connecting...");
-            Thread.Sleep(2000);
+            //Console.WriteLine("connecting...");
+            Thread.Sleep(200);
         }
 
         client.startGame();

@@ -9,7 +9,7 @@ namespace ConnectFour
     public class Controller
     {
         private Model model;
-        private AI ai;
+        public AI ai;
         public bool PlayVsAI { get; set; }
         public Model.COLOR AIColor { get; set; }
         public bool exitGame;
@@ -149,8 +149,15 @@ namespace ConnectFour
             }
         }
 
+        public bool isHumanTurn()
+        {
+            return AIColor != model.currentPlayer;
+        }
+
         public int getAIMove()
         {
+            if (AIColor != model.currentPlayer)
+                return -1;
             return ai.getPlayerMove(model, AIColor);
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConnectFour;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -16,6 +17,7 @@ public class Server
     public UdpListener listener;
     public ServerConnect serverConnect;
     public WebGame webGame;
+    public int keyInput = -1;
     private Stopwatch timer;
 
     public Server()

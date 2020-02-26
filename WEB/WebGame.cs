@@ -1,4 +1,4 @@
-﻿using ConnectFour2;
+﻿using ConnectFour;
 using System;
 using System.Collections.Generic;
 using System.Linq;
