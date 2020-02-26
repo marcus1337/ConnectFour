@@ -1,4 +1,4 @@
-﻿using ConnectFour2;
+﻿using ConnectFour;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,7 @@ public class Hotseat
     {
         Controller controller = new Controller();
         controller.PlayVsAI = true;
-
+        
         controller.beforeStart();
         while (!controller.exitGame)
         {

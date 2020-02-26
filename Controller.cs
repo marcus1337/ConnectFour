@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConnectFour2
+namespace ConnectFour
 {
     public class Controller
     {
@@ -149,6 +149,11 @@ namespace ConnectFour2
             }
         }
 
+        public int getAIMove()
+        {
+            return ai.getPlayerMove(model, AIColor);
+        }
+
         public bool tryPlace(Model.COLOR playerColor, int rowNum)
         {
             if (rowNum > 6 || rowNum < 0 || playerColor != model.currentPlayer)
@@ -160,7 +165,6 @@ namespace ConnectFour2
         public bool tryPlace()
         {
             int rowNum = getPlayerMove();
-            Console.WriteLine();
             if (rowNum > 6 || rowNum < 0)
                 return false;
             model.placeBrick(rowNum);

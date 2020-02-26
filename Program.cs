@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Threading;
 
-namespace ConnectFour2
+namespace ConnectFour
 {
-    class Program
+    public class Program
     {
 
-        static void Main(string[] args)
+        public Program()
         {
 
+        }
+
+        public void run()
+        {
             /*Hotseat hotseat = new Hotseat();
             hotseat.runGame();*/
-
+        
             Lobby lobby = new Lobby();
             Console.WriteLine("1: Server");
             Console.WriteLine("2: Client");
@@ -29,7 +33,11 @@ namespace ConnectFour2
             }
 
             Console.ReadKey();
-
         }
+
+        /*static void Main(string[] args)
+        {
+            new Program().run();
+        }*/
     }
 }
