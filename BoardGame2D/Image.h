@@ -25,6 +25,14 @@ public:
         return rect;
     }
 
+    void setY(int y) {
+        rect.y = y;
+    }
+
+    void setX(int x) {
+        rect.x = x;
+    }
+
     void setXY(int x, int y) {
         rect.x = x;
         rect.y = y;

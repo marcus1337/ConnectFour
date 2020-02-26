@@ -122,7 +122,9 @@ public:
                 button.clickRelease(inputs.mouseUp.first, inputs.mouseUp.second);
             }
             if (button.isClicked()) {
-                gameController.tryPlace(button.value);
+
+                if(gameController.doneAnimatingBrickDrop())
+                    gameController.tryPlace(button.value);
             }
             button.setHover(true);
             button.setSelected(false);

@@ -15,10 +15,14 @@ public:
 
     gcroot<ConnectFour::Controller^> game;
     MiscInfo miscInfo;
+    uint64_t tickLastPlacement;
+    uint64_t maxPlaceAnimationTicks = 70;
 
     GameControl();
 
     void tryPlace(int column);
+
+    bool doneAnimatingBrickDrop();
 
     Image getButtonImageAtBoardPosition(SDL_Renderer* renderer, ShapeHandler& shapeHandler, int i, int j,
         ConnectFour::Model::COLOR color);
@@ -28,12 +32,16 @@ public:
     void setButtonDimensions(int _minX, int _minY, int _btnWidth, int _btnHeight);
     void setGameControllerDimensions(std::vector<Button>& tmpButtons);
 
+    bool isLatestBrick(int i, int j);
+
 private:
     int btnWidth;
     int btnHeight;
     int minX;
     int minY;
+    int passedTurns, lastTurnAnimated;
 
     void sortGameButtons(std::vector<Button>& tmpButtons);
+    int getAnimatedBrickYPos();
 
 };
