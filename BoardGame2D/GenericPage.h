@@ -49,19 +49,13 @@ public:
     PageState handleButtonClicks(InputManager& inputs) {
         PageState pageChange = PageState::NONE;
         for (auto& button : buttons) {
-            if (inputs.wasMouseLeftDown) {
-                button.clickPress(inputs.mouseDown.first, inputs.mouseDown.second);
-            }
-            if (inputs.wasMouseLeftUp) {
-                button.clickRelease(inputs.mouseUp.first, inputs.mouseUp.second);
-            }
+            handleButtonState(inputs, button);
             if (button.isClicked()) {
                 pageChange = (PageState)button.value;
             }
         }
         if (pageChange == PageState::REMATCH)
             gameController.newGame();
-
         return pageChange;
     }
 
@@ -105,13 +99,17 @@ public:
         setupContentFromLua(renderer, miscInfo);
     }
 
-    void handleGameButtonState(InputManager& inputs, Button& button, int selectedCol) {
+    void handleButtonState(InputManager& inputs, Button& button) {
         if (inputs.wasMouseLeftDown) {
             button.clickPress(inputs.mouseDown.first, inputs.mouseDown.second);
         }
         if (inputs.wasMouseLeftUp) {
             button.clickRelease(inputs.mouseUp.first, inputs.mouseUp.second);
         }
+    }
+
+    void handleGameButtonState(InputManager& inputs, Button& button, int selectedCol) {
+        handleButtonState(inputs, button);
         button.setHover(true);
         button.setSelected(false);
         if (selectedCol == button.value)

@@ -1,14 +1,5 @@
 #pragma once
-#include "Page.h"
-#include "Button.h"
-#include "UIText.h"
-#include <vector>
-#include "Image.h"
-#include "IOStuff.h"
-#include "EnumManager.h"
-#include <algorithm>
 
-#include "GameControl.h"
 #include "GenericPage.h"
 
 public class LocalPVEPage : public GenericPage {
