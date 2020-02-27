@@ -85,6 +85,7 @@ std::vector<Image> GameControl::getPlacedBricksImages(SDL_Renderer* renderer, Sh
             }
         }
     }
+    placedBricks.push_back(getLastBrick(renderer, shapeHandler));
     return placedBricks;
 }
 

@@ -17,5 +17,7 @@ Struct ServerPage: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Seale
   :System.ValueType
 Struct LocalPVPPage: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
   :System.ValueType
+Struct GenericPage: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
 Struct LocalPVEPage: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
   :System.ValueType

@@ -10,17 +10,18 @@
 
 #include "GameControl.h"
 
-public class LocalPVPPage : public Page {
+public class GenericPage : public Page {
 public:
 
     std::vector<Button> gameButtons;
     std::vector<Button> buttons;
     std::vector<Image> images;
-
     GameControl gameController;
+    std::string luaScriptName;
 
-    LocalPVPPage(ShapeHandler& _shapeHandler, IOStuff& _iostuff) : Page(_shapeHandler, _iostuff) {
-        state = iostuff.loadLuaFile(FileNames::localPVPLua);
+    GenericPage(ShapeHandler& _shapeHandler, IOStuff& _iostuff, std::string _luaScriptName) : 
+        Page(_shapeHandler, _iostuff), luaScriptName(_luaScriptName) {
+        state = iostuff.loadLuaFile(luaScriptName);
     };
 
     virtual void draw(SDL_Renderer* renderer) {
@@ -72,12 +73,11 @@ public:
 
     void setupContentFromLua(SDL_Renderer* renderer, MiscInfo miscInfo) {
         CppToLua::initLuaFile(state, iostuff.getLuaFilePath() + FileNames::utilityFile, miscInfo);
-        CppToLua::initLuaFile(state, iostuff.getLuaFilePath() + FileNames::localPVPLua, miscInfo);
+        CppToLua::initLuaFile(state, iostuff.getLuaFilePath() + luaScriptName, miscInfo);
 
         buttons = CppToLua::getButtonsFromLua(state, shapeHandler, renderer);
         gameButtons = CppToLua::getButtonsFromLua(state, shapeHandler, renderer, "getGameButtons");
         gameController.setGameControllerDimensions(gameButtons);
-
         images = CppToLua::getImagesFromLua(state, shapeHandler, renderer);
 
         for (auto& button : buttons) {
@@ -86,48 +86,47 @@ public:
         }
     }
 
-    virtual void updateContent(MiscInfo miscInfo, InputManager& inputmanager, SDL_Renderer* renderer) {
-        if (iostuff.isFileModified(FileNames::localPVPLua) || inputmanager.resizedWindow)
+    virtual void updateGame(MiscInfo miscInfo, InputManager& inputmanager, SDL_Renderer* renderer) {}
+
+    void updatePage(MiscInfo miscInfo, InputManager& inputmanager, SDL_Renderer* renderer){
+        if (iostuff.isFileModified(luaScriptName) || inputmanager.resizedWindow)
         {
             setupContentFromLua(renderer, miscInfo);
         }
         gameController.miscInfo = miscInfo;
     }
 
+    virtual void updateContent(MiscInfo miscInfo, InputManager& inputmanager, SDL_Renderer* renderer) {
+        updatePage(miscInfo, inputmanager, renderer);
+        updateGame(miscInfo, inputmanager, renderer);
+    }
+
     virtual void onStart(SDL_Renderer* renderer, MiscInfo miscInfo) {
         setupContentFromLua(renderer, miscInfo);
     }
 
-
-    int getSelectedColumn(InputManager& inputs) {
-        int mx = inputs.mousePosition.first;
-        int my = inputs.mousePosition.second;
-        for (auto& button : gameButtons) {
-            if (button.insideShape(mx, my))
-                return button.value;
+    void handleGameButtonState(InputManager& inputs, Button& button, int selectedCol) {
+        if (inputs.wasMouseLeftDown) {
+            button.clickPress(inputs.mouseDown.first, inputs.mouseDown.second);
         }
-        return -1;
+        if (inputs.wasMouseLeftUp) {
+            button.clickRelease(inputs.mouseUp.first, inputs.mouseUp.second);
+        }
+        button.setHover(true);
+        button.setSelected(false);
+        if (selectedCol == button.value)
+            button.setSelected(true);
     }
 
-    void handleGameButtonClicks(InputManager& inputs) {
-        
-        int selectedCol = getSelectedColumn(inputs);
+    virtual void handleGameButtonClick(Button& button) {};
 
+    void handleGameButtonClicks(InputManager& inputs) {
+        int selectedCol = gameController.getSelectedColumn(inputs.mousePosition.first, inputs.mousePosition.second, gameButtons);
         for (auto& button : gameButtons) {
-            if (inputs.wasMouseLeftDown) {
-                button.clickPress(inputs.mouseDown.first, inputs.mouseDown.second);
-            }
-            if (inputs.wasMouseLeftUp) {
-                button.clickRelease(inputs.mouseUp.first, inputs.mouseUp.second);
-            }
+            handleGameButtonState(inputs, button, selectedCol);
             if (button.isClicked()) {
-                if(gameController.doneAnimatingBrickDrop())
-                    gameController.tryPlace(button.value);
+                handleGameButtonClick(button);
             }
-            button.setHover(true);
-            button.setSelected(false);
-            if (selectedCol == button.value)
-                button.setSelected(true);
         }
     }
 

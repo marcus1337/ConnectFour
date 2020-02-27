@@ -7,7 +7,6 @@ class MainMenu : public Page {
 public:
     std::vector<Button> buttons;
     std::vector<Image> images;
-    UIText text;
 
     MainMenu(ShapeHandler& _shapeHandler, IOStuff& _iostuff) : Page(_shapeHandler, _iostuff) {
         state = iostuff.loadLuaFile(FileNames::mainMenuLua);

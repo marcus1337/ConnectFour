@@ -173,6 +173,7 @@
     <ClInclude Include="EnumManager.h" />
     <ClInclude Include="GameControl.h" />
     <ClInclude Include="GameHandler.h" />
+    <ClInclude Include="GenericPage.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="IOStuff.h" />

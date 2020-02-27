@@ -35,6 +35,14 @@ public:
 
     void newGame();
 
+    int getSelectedColumn(int mx, int my, std::vector<Button> gameButtons) {
+        for (auto& button : gameButtons) {
+            if (button.insideShape(mx, my))
+                return button.value;
+        }
+        return -1;
+    }
+
 private:
     int btnWidth;
     int btnHeight;
